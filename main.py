@@ -1,7 +1,7 @@
 import sys
 
-from PyQt6.QtCore import QSize
-from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow
+from PyQt6.QtCore import QSize, Qt
+from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QSplitter, QHBoxLayout
 
 from structure.LeftBar import LeftBar
 from structure.PresentationScreen import PresentationScreen
@@ -17,10 +17,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Worship Lyrics')
         self.resize(QSize(800, 600))
 
-        widget = QWidget()
-        widget.setLayout(ThreeColumns(LeftBar(), PresentationScreen(), RightBar()))
-
-        self.setCentralWidget(widget)
+        self.setCentralWidget(ThreeColumns(LeftBar(), PresentationScreen(), RightBar()))
 
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")

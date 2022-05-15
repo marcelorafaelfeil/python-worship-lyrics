@@ -1,8 +1,15 @@
-from PyQt6.QtWidgets import QHBoxLayout, QLabel
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QVBoxLayout, QWidget, QLabel
 
 
-class LeftBar(QHBoxLayout):
+class LeftBar(QWidget):
     def __init__(self):
         super(LeftBar, self).__init__()
 
-        self.addWidget(QLabel('Teste'))
+        layout = QVBoxLayout()
+        layout.addWidget(QLabel('LeftBar'))
+        layout.addWidget(QLabel('LeftBar 2'))
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        self.setLayout(layout)
+
