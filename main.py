@@ -3,6 +3,8 @@ import sys
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QSplitter, QHBoxLayout
 
+from core.VideoCapture import *
+
 from structure.LeftBar import LeftBar
 from structure.PresentationScreen import PresentationScreen
 from structure.RightBar import RightBar
