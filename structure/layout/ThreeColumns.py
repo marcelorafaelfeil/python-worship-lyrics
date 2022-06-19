@@ -15,6 +15,7 @@ class ThreeColumns(QSplitter):
         self.addWidget(third_column)
 
         self.setOrientation(Qt.Orientation.Horizontal)
+        self.setContentsMargins(0, 0, 0, 0)
 
 
 

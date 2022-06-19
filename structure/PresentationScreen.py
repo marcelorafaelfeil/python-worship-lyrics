@@ -1,6 +1,9 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel
 
+presentation_style = """
+"""
+
 
 class PresentationScreen(QWidget):
     def __init__(self):
@@ -12,4 +15,5 @@ class PresentationScreen(QWidget):
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         self.setLayout(layout)
+        self.setStyleSheet(presentation_style)
 
