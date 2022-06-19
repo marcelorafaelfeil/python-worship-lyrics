@@ -13,7 +13,7 @@ QDockWidget#tab QWidget {
 """
 
 internal_body_style = """
-background-color: transparent;
+background-color: #191A22;
 border: 0px;
 """
 
@@ -32,15 +32,19 @@ class Tab(QDockWidget):
     def setTitleBarWidget(self, title: TabTitle) -> None:
         super().setTitleBarWidget(title)
 
-    def setBody(self, body_widget: QWidget):
-        body_widget.setContentsMargins(5, 5, 5, 5)
+    def setBody(self, body_widget: QWidget, scroll: bool = True):
+        body_widget.setContentsMargins(0, 0, 0, 0)
         body_widget.setStyleSheet(internal_body_style)
-        area = QScrollArea()
-        area.setWidget(body_widget)
-        self.body = area
-        self.setWidget(area)
 
-        body_widget.adjustSize()
+        if scroll:
+            area = QScrollArea()
+            area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            area.setWidget(body_widget)
+            self.body = area
+        else:
+            self.body = body_widget
+
+        self.setWidget(self.body)
 
     def minimize(self):
         if self.body is not None:

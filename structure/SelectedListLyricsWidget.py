@@ -6,7 +6,10 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, QAbstractItemView
 class SelectedListLyricsWidget(QWidget):
     def __init__(self, context: ApplicationContext):
         super().__init__()
+
         self.context = context
+        self._onSelectLyric()
+
         layout = QVBoxLayout()
 
         self.lyrics_tree = QTreeWidget()
@@ -26,4 +29,14 @@ class SelectedListLyricsWidget(QWidget):
         widget_item = self.lyrics_tree.itemFromIndex(index)
         item = widget_item.data(0, Qt.ItemDataRole.UserRole)
         self.context.lyricsHandle().setSelectedLyric(item)
+
+    def addNewItemToSelected(self, item):
+        widget_item = QTreeWidgetItem([item['file_name'], item['author']])
+        widget_item.setData(0, Qt.ItemDataRole.UserRole, item)
+        self.lyrics_tree.addTopLevelItem(widget_item)
+
+    def _onSelectLyric(self):
+        lyric_handle = self.context.lyricsHandle()
+        lyric_handle.onAddToSelectedLyric(self.addNewItemToSelected)
+
 

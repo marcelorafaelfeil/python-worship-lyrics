@@ -33,7 +33,7 @@ class MainWindow(QMainWindow):
 
         lyrics_tab = Tab(self)
         lyrics_tab.setTitleBarWidget(TabTitle('Letras'))
-        lyrics_tab.setBody(LyricsWidget(lyrics_list))
+        lyrics_tab.setBody(LyricsWidget(context, lyrics_list))
 
         selected_lyrics_tab = Tab(self)
         selected_lyrics_tab.setTitleBarWidget(TabTitle('Letras selecionadas'))
@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
 
         lyric_bar_tab = Tab(self)
         lyric_bar_tab.setTitleBarWidget(TabTitle('Letra selecionada'))
-        lyric_bar_tab.setBody(CurrentLyricWidget(context))
+        lyric_bar_tab.setBody(CurrentLyricWidget(context), False)
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, lyric_bar_tab)
 
         menu = self.menuBar()

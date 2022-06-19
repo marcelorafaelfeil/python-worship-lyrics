@@ -13,8 +13,8 @@ class CurrentLyricWidget(QWidget):
         self.context.lyricsHandle().onChangeLyric(self.onSelectLyric)
 
         self.list = QListWidget()
-        self.list.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.list.setViewportMargins(0, 0, 0, 0)
+        self.list.setWordWrap(True)
 
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.list)
@@ -23,7 +23,6 @@ class CurrentLyricWidget(QWidget):
         self.setLayout(self.layout)
 
     def onSelectLyric(self, lyric):
-        self.setFixedSize(self.parentWidget().parentWidget().sizeHint())
         lyrics_handle = self.context.lyricsHandle()
         list_lines = lyrics_handle.getCurrentLyricContent()
 
@@ -35,5 +34,3 @@ class CurrentLyricWidget(QWidget):
             item.setText(line['content'])
 
             self.list.addItem(item)
-
-        self.setFixedHeight(self.list.viewportSizeHint().height() + 50)

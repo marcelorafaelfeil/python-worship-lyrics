@@ -1,3 +1,4 @@
+from core import ApplicationContext
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QVBoxLayout, QHeaderView, QTreeWidget, QTreeWidgetItem, QWidget, QAbstractItemView
 
@@ -5,19 +6,21 @@ from PyQt6.QtWidgets import QVBoxLayout, QHeaderView, QTreeWidget, QTreeWidgetIt
 
 
 class LyricsWidget(QWidget):
-    def __init__(self, list_lyrics):
+    def __init__(self, context: ApplicationContext, list_lyrics):
         super(LyricsWidget, self).__init__()
+
+        self.context = context
 
         layout = QVBoxLayout()
 
-        lyrics_tree = QTreeWidget()
-        lyrics_tree.setColumnCount(2)
-        lyrics_tree.setIndentation(0)
-        lyrics_tree.setSortingEnabled(True)
-        lyrics_tree.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
-        lyrics_tree.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
-        lyrics_tree.setDragEnabled(True)
-        lyrics_tree.setHeaderLabels(["Música", "Autor"])
+        self.lyrics_tree = QTreeWidget()
+        self.lyrics_tree.setColumnCount(2)
+        self.lyrics_tree.setIndentation(0)
+        self.lyrics_tree.setSortingEnabled(True)
+        self.lyrics_tree.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.lyrics_tree.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
+        self.lyrics_tree.setDragEnabled(True)
+        self.lyrics_tree.setHeaderLabels(["Música", "Autor"])
 
         items = []
 
@@ -26,11 +29,18 @@ class LyricsWidget(QWidget):
             item.setData(0, Qt.ItemDataRole.UserRole, lyric)
             items.append(item)
 
-        lyrics_tree.insertTopLevelItems(0, items)
+        self.lyrics_tree.insertTopLevelItems(0, items)
+        self.lyrics_tree.doubleClicked.connect(self.addToSelectedLyrics)
 
-        layout.addWidget(lyrics_tree)
+        layout.addWidget(self.lyrics_tree)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
         layout.setContentsMargins(0, 0, 0, 0)
 
         self.setLayout(layout)
+
+    def addToSelectedLyrics(self, index):
+        widget_item = self.lyrics_tree.itemFromIndex(index)
+        item = widget_item.data(0, Qt.ItemDataRole.UserRole)
+
+        self.context.lyricsHandle().addToSelectedLyrics(item)
 

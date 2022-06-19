@@ -4,6 +4,7 @@ from core.Event import Event
 
 
 class Lyrics:
+    _event_add_to_selected = 'ON_ADD_TO_SELECTED'
     _event_on_change_key = 'ON_CHANGE_LYRIC'
 
     def __init__(self, path: str):
@@ -66,3 +67,9 @@ class Lyrics:
 
     def onChangeLyric(self, func) -> None:
         Event.on(self._event_on_change_key, func)
+
+    def addToSelectedLyrics(self, widget_item) -> None:
+        Event.emit(self._event_add_to_selected, widget_item)
+
+    def onAddToSelectedLyric(self, func) -> None:
+        Event.on(self._event_add_to_selected, func)
