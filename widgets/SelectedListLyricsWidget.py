@@ -20,7 +20,7 @@ class SelectedListLyricsWidget(QWidget):
         self.lyrics_tree.setHeaderLabels(["Música", "Autor"])
         self.lyrics_tree.doubleClicked.connect(self.selectItem)
 
-        layout.addWidget(self.lyrics_tree)
+        layout.addWidget(self.lyrics_tree, 1)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
@@ -28,15 +28,15 @@ class SelectedListLyricsWidget(QWidget):
     def selectItem(self, index):
         widget_item = self.lyrics_tree.itemFromIndex(index)
         item = widget_item.data(0, Qt.ItemDataRole.UserRole)
-        self.context.lyricsHandle().setSelectedLyric(item)
+        self.context.handleLyrics().setSelectedLyric(item)
 
     def addNewItemToSelected(self, item):
-        widget_item = QTreeWidgetItem([item['file_name'], item['author']])
+        widget_item = QTreeWidgetItem([item['name'], item['author']])
         widget_item.setData(0, Qt.ItemDataRole.UserRole, item)
         self.lyrics_tree.addTopLevelItem(widget_item)
 
     def _onSelectLyric(self):
-        lyric_handle = self.context.lyricsHandle()
+        lyric_handle = self.context.handleLyrics()
         lyric_handle.onAddToSelectedLyric(self.addNewItemToSelected)
 
 

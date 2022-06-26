@@ -4,9 +4,10 @@ from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
 from actions.NewFileAction import NewFileAction
-from core import ApplicationContext, Lyrics
-from structure import PresentationScreen, LyricsWidget, SelectedListLyricsWidget, CurrentLyricWidget
+from core import ApplicationContext
+from structure import PresentationScreen
 from widgets.tab import Tab, TabTitle
+from widgets import LyricsWidget, SelectedListLyricsWidget, CurrentLyricWidget
 
 app_style = """
 QMainWindow::separator {
@@ -29,7 +30,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Worship Lyrics')
         self.resize(QSize(1024, 600))
 
-        lyrics_list = context.lyricsHandle().loadLyrics()
+        lyrics_list = context.handleLyrics().loadLyrics()
 
         lyrics_tab = Tab(self)
         lyrics_tab.setTitleBarWidget(TabTitle('Letras'))
@@ -43,7 +44,7 @@ class MainWindow(QMainWindow):
         self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, selected_lyrics_tab)
         self.setDockOptions(QMainWindow.DockOption.AnimatedDocks | QMainWindow.DockOption.GroupedDragging)
 
-        self.setCentralWidget(PresentationScreen())
+        self.setCentralWidget(PresentationScreen(context))
 
         lyric_bar_tab = Tab(self)
         lyric_bar_tab.setTitleBarWidget(TabTitle('Letra selecionada'))

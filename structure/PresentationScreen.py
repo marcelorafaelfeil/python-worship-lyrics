@@ -1,19 +1,24 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel
+from PyQt6.QtWidgets import QWidget, QVBoxLayout
 
-presentation_style = """
-"""
+from core import ApplicationContext
 
 
 class PresentationScreen(QWidget):
-    def __init__(self):
+    def __init__(self, context: ApplicationContext):
         super(PresentationScreen, self).__init__()
+        self.context = context
+        self.handle_lyrics = self.context.handleLyrics()
+
+        self.__verseChangedObserver()
 
         layout = QVBoxLayout()
-        layout.addWidget(QLabel('Presentation'))
-        layout.addWidget(QLabel('Presentation 2'))
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         self.setLayout(layout)
-        self.setStyleSheet(presentation_style)
 
+    def __verseChangedObserver(self):
+        self.handle_lyrics.onChangeLyric(self.__changeText)
+
+    def __changeText(self, item):
+        print(f'item: {item}')

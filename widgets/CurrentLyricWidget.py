@@ -10,11 +10,14 @@ class CurrentLyricWidget(QWidget):
         self.setObjectName('currentLyricWidget')
 
         self.context = context
-        self.context.lyricsHandle().onChangeLyric(self.onSelectLyric)
+        self.context.handleLyrics().onChangeLyric(self.onSelectLyric)
+
+        self.lyrics_handle = self.context.handleLyrics()
 
         self.list = QListWidget()
         self.list.setViewportMargins(0, 0, 0, 0)
         self.list.setWordWrap(True)
+        self.list.currentItemChanged.connect(self.onVerseChange)
 
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.list)
@@ -23,8 +26,7 @@ class CurrentLyricWidget(QWidget):
         self.setLayout(self.layout)
 
     def onSelectLyric(self, lyric):
-        lyrics_handle = self.context.lyricsHandle()
-        list_lines = lyrics_handle.getCurrentLyricContent()
+        list_lines = self.lyrics_handle.getCurrentLyricContent()
 
         self.list.clear()
 
@@ -34,3 +36,13 @@ class CurrentLyricWidget(QWidget):
             item.setText(line['content'])
 
             self.list.addItem(item)
+
+    def onVerseChange(self, current: QListWidgetItem, previous: QListWidgetItem):
+        if previous is not None:
+            previous_data = previous.data(Qt.ItemDataRole.UserRole)
+            previous_data['selected'] = False
+
+        current_data = current.data(Qt.ItemDataRole.UserRole)
+        current_data['selected'] = True
+
+        self.lyrics_handle.emitVerseChanged(current)

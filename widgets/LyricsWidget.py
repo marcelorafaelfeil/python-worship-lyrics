@@ -25,14 +25,14 @@ class LyricsWidget(QWidget):
         items = []
 
         for lyric in list_lyrics:
-            item = QTreeWidgetItem([lyric['file_name'], lyric['author']])
+            item = QTreeWidgetItem([lyric['name'], lyric['author']])
             item.setData(0, Qt.ItemDataRole.UserRole, lyric)
             items.append(item)
 
         self.lyrics_tree.insertTopLevelItems(0, items)
         self.lyrics_tree.doubleClicked.connect(self.addToSelectedLyrics)
 
-        layout.addWidget(self.lyrics_tree)
+        layout.addWidget(self.lyrics_tree, 1)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
         layout.setContentsMargins(0, 0, 0, 0)
 
@@ -42,5 +42,5 @@ class LyricsWidget(QWidget):
         widget_item = self.lyrics_tree.itemFromIndex(index)
         item = widget_item.data(0, Qt.ItemDataRole.UserRole)
 
-        self.context.lyricsHandle().addToSelectedLyrics(item)
+        self.context.handleLyrics().addToSelectedLyrics(item)
 

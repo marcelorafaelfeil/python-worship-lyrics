@@ -5,7 +5,8 @@ from core.Event import Event
 
 class Lyrics:
     _event_add_to_selected = 'ON_ADD_TO_SELECTED'
-    _event_on_change_key = 'ON_CHANGE_LYRIC'
+    _event_on_change_lyric = 'ON_CHANGE_LYRIC'
+    _event_on_change_verse = 'ON_CHANGE_VERSE'
 
     def __init__(self, path: str):
         self.path = PathUtils.validatePath(path)
@@ -39,7 +40,7 @@ class Lyrics:
 
     def setSelectedLyric(self, lyric):
         self._current_lyric = lyric
-        Event.emit(self._event_on_change_key, lyric)
+        Event.emit(self._event_on_change_lyric, lyric)
 
     def getCurrentLyric(self):
         return self._current_lyric
@@ -66,10 +67,16 @@ class Lyrics:
         return content
 
     def onChangeLyric(self, func) -> None:
-        Event.on(self._event_on_change_key, func)
+        Event.on(self._event_on_change_lyric, func)
+
+    def onChangeVerse(self, func) -> None:
+        Event.on(self._event_on_change_verse, func)
 
     def addToSelectedLyrics(self, widget_item) -> None:
         Event.emit(self._event_add_to_selected, widget_item)
 
     def onAddToSelectedLyric(self, func) -> None:
         Event.on(self._event_add_to_selected, func)
+
+    def emitVerseChanged(self, lyric) -> None:
+        Event.emit(self._event_on_change_verse, lyric)
