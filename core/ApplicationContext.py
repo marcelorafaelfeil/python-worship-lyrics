@@ -6,5 +6,6 @@ class ApplicationContext:
     def __init__(self):
         self._lyrics_handle = Lyrics('/Users/marcelorafael/lyrics')
 
-    def handleLyrics(self):
+    def lyricsHandle(self):
         return self._lyrics_handle
+

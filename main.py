@@ -30,7 +30,8 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Worship Lyrics')
         self.resize(QSize(1024, 600))
 
-        lyrics_list = context.handleLyrics().loadLyrics()
+        context.lyricsHandle().loadLyrics()
+        lyrics_list = context.lyricsHandle().getLyricsList()
 
         lyrics_tab = Tab(self)
         lyrics_tab.setTitleBarWidget(TabTitle('Letras'))

@@ -11,6 +11,8 @@ class Lyrics:
     def __init__(self, path: str):
         self.path = PathUtils.validatePath(path)
         self._current_lyric = None
+        self.original_lyrics_list = []
+        self.lyrics_list = []
 
     def loadLyrics(self):
         folders = os.listdir(self.path)
@@ -25,7 +27,17 @@ class Lyrics:
                     if os.path.isfile(current_path + lfile):
                         lyrics_list.append(self.__addFile(lfile, folder, current_path + lfile))
 
-        return lyrics_list
+        self.original_lyrics_list = lyrics_list
+        self.lyrics_list = lyrics_list
+
+    def setLyricsList(self, lyrics_list):
+        self.lyrics_list = lyrics_list
+
+    def getLyricsList(self):
+        return self.lyrics_list
+
+    def resetLyricsList(self):
+        self.lyrics_list = self.original_lyrics_list
 
     def __addFile(self, file_name: str, author: str, path: str):
         extension = file_name[-4:]

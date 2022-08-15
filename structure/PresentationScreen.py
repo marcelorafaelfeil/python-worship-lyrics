@@ -8,7 +8,7 @@ class PresentationScreen(QWidget):
     def __init__(self, context: ApplicationContext):
         super(PresentationScreen, self).__init__()
         self.context = context
-        self.handle_lyrics = self.context.handleLyrics()
+        self.handle_lyrics = self.context.lyricsHandle()
 
         self.__verseChangedObserver()
 

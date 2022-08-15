@@ -10,9 +10,9 @@ class CurrentLyricWidget(QWidget):
         self.setObjectName('currentLyricWidget')
 
         self.context = context
-        self.context.handleLyrics().onChangeLyric(self.onSelectLyric)
+        self.context.lyricsHandle().onChangeLyric(self.onSelectLyric)
 
-        self.lyrics_handle = self.context.handleLyrics()
+        self.lyrics_handle = self.context.lyricsHandle()
 
         self.list = QListWidget()
         self.list.setViewportMargins(0, 0, 0, 0)

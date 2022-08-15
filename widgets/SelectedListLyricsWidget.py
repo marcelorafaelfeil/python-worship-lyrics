@@ -28,7 +28,7 @@ class SelectedListLyricsWidget(QWidget):
     def selectItem(self, index):
         widget_item = self.lyrics_tree.itemFromIndex(index)
         item = widget_item.data(0, Qt.ItemDataRole.UserRole)
-        self.context.handleLyrics().setSelectedLyric(item)
+        self.context.lyricsHandle().setSelectedLyric(item)
 
     def addNewItemToSelected(self, item):
         widget_item = QTreeWidgetItem([item['name'], item['author']])
@@ -36,7 +36,7 @@ class SelectedListLyricsWidget(QWidget):
         self.lyrics_tree.addTopLevelItem(widget_item)
 
     def _onSelectLyric(self):
-        lyric_handle = self.context.handleLyrics()
+        lyric_handle = self.context.lyricsHandle()
         lyric_handle.onAddToSelectedLyric(self.addNewItemToSelected)
 
 
