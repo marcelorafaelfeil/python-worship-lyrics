@@ -1,13 +1,16 @@
 import sys
+import threading
 
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
 from actions.NewFileAction import NewFileAction
-from core import ApplicationContext
+from core import ApplicationContext, MessageHandle, WebSocketServer
 from structure import PresentationScreen
 from widgets import LyricsWidget, SelectedListLyricsWidget, CurrentLyricWidget
 from widgets.tab import Tab, TabTitle
+
+from tornado import ioloop, web
 
 app_style = """
 QMainWindow::separator {
@@ -19,18 +22,31 @@ window_style = """
 background-color: #282A37;
 """
 
+context = ApplicationContext()
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        context = ApplicationContext()
+        self._runThread()
+
+        # web_app = web.Application(
+        #     [("/lyric/", WebSocketServer)],
+        #     websocket_ping_interval=10,
+        #     websocket_ping_timeout=30,
+        # )
+        #
+        # web_app.listen(4041)
+        # io_loop = ioloop.IOLoop.current()
+        # io_loop.start()
 
         self.setStyleSheet(window_style)
         self.setWindowTitle('Worship Lyrics')
         self.resize(QSize(1024, 600))
 
-        lyrics_list = context.handleLyrics().loadLyrics()
+        context.lyricsHandle().loadLyrics()
+        lyrics_list = context.lyricsHandle().getLyricsList()
 
         lyrics_tab = Tab(self)
         lyrics_tab.setTitleBarWidget(TabTitle('Letras'))
@@ -54,6 +70,25 @@ class MainWindow(QMainWindow):
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
         file_menu.addAction(NewFileAction(self))
+
+        context.lyricsHandle().onChangeVerse(self._onChangeVerse)
+
+    # TODO: É necessário passar isso para uma nova classe e organizar
+    def _runThread(self):
+        web_app = web.Application(
+            [("/lyric/", WebSocketServer)],
+            websocket_ping_interval=10,
+            websocket_ping_timeout=30,
+        )
+
+        web_app.listen(4041)
+        self.thread = threading.Thread(target=ioloop.IOLoop.current().start)
+        self.thread.daemon = True
+        self.thread.start()
+
+    def _onChangeVerse(self, verse):
+        content = verse['content']
+        WebSocketServer.send(content)
 
 
 app = QApplication(sys.argv)

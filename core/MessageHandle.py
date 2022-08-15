@@ -1,27 +1,25 @@
-import websockets
-import asyncio
+import threading
 
-from threading import Thread
-from core import HttpHandle
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from core import WebSocketServer
+from tornado import ioloop, web
 
 
 class MessageHandle:
     def __init__(self):
-        self.websocket = None
-        self.thread_websocket = Thread(target=self.__websocketRunner, args=(self,))
+        print()
+        self._runThread()
 
-    async def echo(self, websocket):
-        async for message in websocket:
-            await websocket.send(message)
+    def _runThread(self):
+        web_app = web.Application(
+            [("/lyric/", WebSocketServer)],
+            websocket_ping_interval=10,
+            websocket_ping_timeout=30,
+        )
 
-    async def __websocketRunner(self):
-        async with websockets.serve(self.echo, 'localhost', 4041):
-            await asyncio.Future()
+        web_app.listen(4041)
+        ioloop.IOLoop.current().start()
+        self.thread = threading.Thread(target=ioloop.IOLoop.current().start())
+        self.thread.daemon = True
+        self.thread.start()
 
-    def startWebsocket(self):
-        self.thread_websocket.start()
-
-    def startHTTP(self):
-        server = HTTPServer(('localhost', 9091), HttpHandle)
 
