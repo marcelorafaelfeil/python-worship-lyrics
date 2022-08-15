@@ -6,8 +6,8 @@ from PyQt6.QtWidgets import QApplication, QMainWindow
 from actions.NewFileAction import NewFileAction
 from core import ApplicationContext
 from structure import PresentationScreen
-from widgets.tab import Tab, TabTitle
 from widgets import LyricsWidget, SelectedListLyricsWidget, CurrentLyricWidget
+from widgets.tab import Tab, TabTitle
 
 app_style = """
 QMainWindow::separator {
@@ -64,3 +64,4 @@ window = MainWindow()
 window.show()
 
 app.exec()
+
