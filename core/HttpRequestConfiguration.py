@@ -2,15 +2,17 @@ from typing import Optional, Awaitable
 
 from tornado.web import RequestHandler
 
+from services.utils import PathUtils
+
 
 class HttpRequestConfiguration(RequestHandler):
-    html_path = './template/lyric.html'
+    template_name = 'lyric.html'
 
     def data_received(self, chunk: bytes) -> Optional[Awaitable[None]]:
         pass
 
     def get(self):
-        html_file = open(HttpRequestConfiguration.html_path, 'r')
+        html_file = open(PathUtils.template(HttpRequestConfiguration.template_name), 'r')
         html = html_file.read()
         html_file.close()
 

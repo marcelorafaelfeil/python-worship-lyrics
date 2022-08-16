@@ -1,3 +1,4 @@
+from services.utils import PathUtils
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QHBoxLayout, QLineEdit, QPushButton, QFrame, QComboBox
 
@@ -27,7 +28,7 @@ class SearchInput(QFrame):
         self.search_by.setContentsMargins(5, 5, 5, 5)
         self.search_by.setMinimumWidth(90)
 
-        icon = QIcon('assets/icons/magnify.png')
+        icon = QIcon(PathUtils.icon('magnify.png'))
 
         button = QPushButton()
         button.setIcon(icon)
