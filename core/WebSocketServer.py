@@ -19,7 +19,10 @@ class WebSocketServer(WebSocketHandler):
     @classmethod
     def send(cls, message: str):
         for client in cls.clients:
-            client.write_message(message)
+            try:
+                client.write_message(message)
+            except Exception as e:
+                print('Não foi possível escrever a mensagem')
 
     def on_message(self, message: Union[str, bytes]) -> Optional[Awaitable[None]]:
         pass
