@@ -10,10 +10,8 @@ from services import LyricSearchService
 
 
 class LyricsWidget(QWidget):
-    def __init__(self, context: ApplicationContext, list_lyrics):
+    def __init__(self, list_lyrics):
         super(LyricsWidget, self).__init__()
-
-        self.context = context
 
         layout = QVBoxLayout()
         layout.addWidget(SearchInput(lambda value, search_by: self.searchLyrics(value, search_by)))
@@ -42,7 +40,7 @@ class LyricsWidget(QWidget):
         widget_item = self.lyrics_tree.itemFromIndex(index)
         item = widget_item.data(0, Qt.ItemDataRole.UserRole)
 
-        self.context.lyricsHandle().addToSelectedLyrics(item)
+        ApplicationContext.lyric_handler.addToSelectedLyrics(item)
 
     def parseToTreeItems(self, list_lyrics):
 
@@ -56,7 +54,7 @@ class LyricsWidget(QWidget):
         return items
 
     def searchLyrics(self, value, search_by):
-        handle = self.context.lyricsHandle()
+        handle = ApplicationContext.lyric_handler
         search_service = LyricSearchService(handle.getLyricsList(), value)
         result = []
 

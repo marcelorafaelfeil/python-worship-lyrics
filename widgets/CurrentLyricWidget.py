@@ -5,14 +5,13 @@ from core import ApplicationContext
 
 
 class CurrentLyricWidget(QWidget):
-    def __init__(self, context: ApplicationContext):
+    def __init__(self):
         super(CurrentLyricWidget, self).__init__()
         self.setObjectName('currentLyricWidget')
 
-        self.context = context
-        self.context.lyricsHandle().onChangeLyric(self.onSelectLyric)
+        ApplicationContext.lyric_handler.onChangeLyric(self.onSelectLyric)
 
-        self.lyrics_handle = self.context.lyricsHandle()
+        self.lyrics_handle = ApplicationContext.lyric_handler
 
         self.list = QListWidget()
         self.list.setViewportMargins(0, 0, 0, 0)

@@ -7,6 +7,9 @@ class WebSocketServer(WebSocketHandler):
 
     clients = set()
 
+    def check_origin(self, origin: str) -> bool:
+        return True
+
     def open(self):
         WebSocketServer.clients.add(self)
 
