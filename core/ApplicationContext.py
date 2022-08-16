@@ -1,11 +1,15 @@
-from . import Lyrics
+from . import Lyrics, MessageHandle, WebSocketServer, WebSocketHandler
 
 
 class ApplicationContext:
+    websocket: WebSocketServer
+    lyric_handler: Lyrics
+    message_handler: MessageHandle
 
-    def __init__(self):
-        self._lyrics_handle = Lyrics('/Users/marcelorafael/lyrics')
+    @staticmethod
+    def getMessageHandler() -> MessageHandle:
+        return ApplicationContext.message_handler
 
-    def lyricsHandle(self):
-        return self._lyrics_handle
-
+    @staticmethod
+    def getWebsocket() -> WebSocketServer:
+        return ApplicationContext.websocket

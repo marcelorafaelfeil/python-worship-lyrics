@@ -5,10 +5,9 @@ from core import ApplicationContext
 
 
 class PresentationScreen(QWidget):
-    def __init__(self, context: ApplicationContext):
+    def __init__(self):
         super(PresentationScreen, self).__init__()
-        self.context = context
-        self.handle_lyrics = self.context.lyricsHandle()
+        self.handle_lyrics = ApplicationContext.lyric_handler
 
         self.__verseChangedObserver()
 
@@ -22,3 +21,5 @@ class PresentationScreen(QWidget):
 
     def __changeText(self, item):
         print(f'item: {item}')
+
+
