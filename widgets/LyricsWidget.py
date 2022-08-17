@@ -21,6 +21,7 @@ class LyricsWidget(QFrame):
         self.lyrics_tree.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
         self.lyrics_tree.setDragEnabled(True)
         self.lyrics_tree.setHeaderLabels(["Título", "Autor"])
+        self.lyrics_tree.setObjectName('LyricsTree')
 
         items = self.parseToTreeItems(list_lyrics)
 
@@ -32,7 +33,7 @@ class LyricsWidget(QFrame):
         layout.setContentsMargins(0, 0, 0, 0)
 
         self.setLayout(layout)
-        self.setObjectName('Lyricss')
+        self.setObjectName('Lyrics')
 
     def addToSelectedLyrics(self, index):
         widget_item = self.lyrics_tree.itemFromIndex(index)
