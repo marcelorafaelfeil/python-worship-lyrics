@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QVBoxLayout, QTreeWidget, QTreeWidgetItem, QAbstract
 from core import ApplicationContext
 from widgets.form import SearchInput
 from services import LyricSearchService
+from . import TreeLyricsWidget
 
 
 class LyricsWidget(QFrame):
@@ -13,20 +14,9 @@ class LyricsWidget(QFrame):
         layout = QVBoxLayout()
         layout.addWidget(SearchInput(lambda value, search_by: self.searchLyrics(value, search_by)))
 
-        self.lyrics_tree = QTreeWidget()
-        self.lyrics_tree.setColumnCount(2)
-        self.lyrics_tree.setIndentation(0)
-        self.lyrics_tree.setSortingEnabled(True)
-        self.lyrics_tree.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
-        self.lyrics_tree.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
-        self.lyrics_tree.setDragEnabled(True)
-        self.lyrics_tree.setHeaderLabels(["Título", "Autor"])
-        self.lyrics_tree.setObjectName('LyricsTree')
-
-        items = self.parseToTreeItems(list_lyrics)
-
-        self.lyrics_tree.insertTopLevelItems(0, items)
-        self.lyrics_tree.doubleClicked.connect(self.addToSelectedLyrics)
+        self.lyrics_tree = TreeLyricsWidget(["Título", "Autor"], list_lyrics)
+        self.lyrics_tree.onSelectItem(lambda item: self.addToSelectedLyrics(item))
+        self.lyrics_tree.onRefresh(self.refreshLyrics)
 
         layout.addWidget(self.lyrics_tree, 1)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
@@ -35,22 +25,13 @@ class LyricsWidget(QFrame):
         self.setLayout(layout)
         self.setObjectName('Lyrics')
 
-    def addToSelectedLyrics(self, index):
-        widget_item = self.lyrics_tree.itemFromIndex(index)
-        item = widget_item.data(0, Qt.ItemDataRole.UserRole)
+    def refreshLyrics(self):
+        lyrics_list = ApplicationContext.lyric_handler.refresh()
+        self.lyrics_tree.setItems(lyrics_list)
 
+
+    def addToSelectedLyrics(self, item):
         ApplicationContext.lyric_handler.addToSelectedLyrics(item)
-
-    def parseToTreeItems(self, list_lyrics):
-
-        items = []
-
-        for lyric in list_lyrics:
-            item = QTreeWidgetItem([lyric['name'], lyric['author']])
-            item.setData(0, Qt.ItemDataRole.UserRole, lyric)
-            items.append(item)
-
-        return items
 
     def searchLyrics(self, value, search_by):
         handle = ApplicationContext.lyric_handler
@@ -64,7 +45,5 @@ class LyricsWidget(QFrame):
         elif search_by == 2:
             result = search_service.searchByLyric()
 
-        items = self.parseToTreeItems(result)
-
         self.lyrics_tree.clear()
-        self.lyrics_tree.insertTopLevelItems(0, items)
+        self.lyrics_tree.setItems(result)

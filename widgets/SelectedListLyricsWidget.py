@@ -2,7 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QFrame, QVBoxLayout, QTreeWidget, QAbstractItemView, QTreeWidgetItem
 
 from core import ApplicationContext
-from . import TreeLyricsWidget
+from . import TreeSelectedLyricsWidget
 
 
 class SelectedListLyricsWidget(QFrame):
@@ -13,7 +13,7 @@ class SelectedListLyricsWidget(QFrame):
 
         layout = QVBoxLayout()
 
-        self.lyrics_tree = TreeLyricsWidget(['Título', 'Autor'])
+        self.lyrics_tree = TreeSelectedLyricsWidget(['Título', 'Autor'])
         self.lyrics_tree.onSelectItem(self.selectItem)
 
         layout.addWidget(self.lyrics_tree)
