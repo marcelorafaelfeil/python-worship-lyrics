@@ -22,8 +22,8 @@ class TreeLyricsWidget(QTreeWidget):
         self.setItemsExpandable(False)
         self.doubleClicked.connect(self._doubleClicked)
 
-    def addItem(self, item: List[str]):
-        widget_item = QTreeWidgetItem(item)
+    def addItem(self, labels: List[str], item):
+        widget_item = QTreeWidgetItem(labels)
         widget_item.setData(0, Qt.ItemDataRole.UserRole, item)
         widget_item.setFlags(TreeLyricsWidget.item_default_flags)
         self.addTopLevelItem(widget_item)
@@ -49,5 +49,3 @@ class TreeLyricsWidget(QTreeWidget):
             QTreeWidget.dropEvent(self, event)
             event.acceptProposedAction()
             self.clearSelection()
-
-

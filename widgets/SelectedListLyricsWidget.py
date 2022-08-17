@@ -6,11 +6,6 @@ from . import TreeLyricsWidget
 
 
 class SelectedListLyricsWidget(QFrame):
-    item_default_flags = (
-            Qt.ItemFlag.ItemNeverHasChildren | Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsDragEnabled
-            | Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsDropEnabled
-    )
-
     def __init__(self):
         super().__init__()
 
@@ -30,7 +25,7 @@ class SelectedListLyricsWidget(QFrame):
         ApplicationContext.lyric_handler.setSelectedLyric(item)
 
     def addNewItemToSelected(self, item):
-        self.lyrics_tree.addItem([item['name'], item['author']])
+        self.lyrics_tree.addItem([item['name'], item['author']], item)
 
     def _onSelectLyricEvent(self):
         lyric_handle = ApplicationContext.lyric_handler
