@@ -1,9 +1,9 @@
 from core import ApplicationContext
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, QAbstractItemView, QTreeWidgetItem
+from PyQt6.QtWidgets import QFrame, QVBoxLayout, QTreeWidget, QAbstractItemView, QTreeWidgetItem
 
 
-class SelectedListLyricsWidget(QWidget):
+class SelectedListLyricsWidget(QFrame):
     def __init__(self):
         super().__init__()
 

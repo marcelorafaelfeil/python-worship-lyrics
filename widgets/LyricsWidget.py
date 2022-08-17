@@ -1,15 +1,12 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QVBoxLayout, QTreeWidget, QTreeWidgetItem, QWidget, QAbstractItemView
+from PyQt6.QtWidgets import QVBoxLayout, QTreeWidget, QTreeWidgetItem, QAbstractItemView, QFrame
 
 from core import ApplicationContext
 from widgets.form import SearchInput
 from services import LyricSearchService
 
 
-# TODO: It's necessary to fix the height of the widget
-
-
-class LyricsWidget(QWidget):
+class LyricsWidget(QFrame):
     def __init__(self, list_lyrics):
         super(LyricsWidget, self).__init__()
 
@@ -35,6 +32,7 @@ class LyricsWidget(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
 
         self.setLayout(layout)
+        self.setObjectName('Lyricss')
 
     def addToSelectedLyrics(self, index):
         widget_item = self.lyrics_tree.itemFromIndex(index)

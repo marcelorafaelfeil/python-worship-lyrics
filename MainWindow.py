@@ -24,11 +24,11 @@ class MainWindow(QMainWindow):
 
         lyrics_tab = Tab(self)
         lyrics_tab.setTitleBarWidget(TabTitle('Letras'))
-        lyrics_tab.setBody(LyricsWidget(lyrics_list))
+        lyrics_tab.setBody(LyricsWidget(lyrics_list), False)
 
         selected_lyrics_tab = Tab(self)
         selected_lyrics_tab.setTitleBarWidget(TabTitle('Letras selecionadas'))
-        selected_lyrics_tab.setBody(SelectedListLyricsWidget())
+        selected_lyrics_tab.setBody(SelectedListLyricsWidget(), False)
 
         self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, lyrics_tab)
         self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, selected_lyrics_tab)

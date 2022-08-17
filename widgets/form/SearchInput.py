@@ -1,6 +1,7 @@
-from services.utils import PathUtils
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QHBoxLayout, QLineEdit, QPushButton, QFrame, QComboBox
+
+from services.utils import PathUtils
 
 search_content_style = '''
 #SearchContent {
