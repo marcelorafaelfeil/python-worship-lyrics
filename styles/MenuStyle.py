@@ -4,6 +4,7 @@ QMenu {
     padding: 0px;
 }
 QMenu::item {
+    color: #FFFFFF;
     padding: 5px 15px 5px 5px;
 }
 QMenu::item:selected {
