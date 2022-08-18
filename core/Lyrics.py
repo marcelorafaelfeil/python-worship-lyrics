@@ -30,6 +30,10 @@ class Lyrics:
         self.original_lyrics_list = lyrics_list
         self.lyrics_list = lyrics_list
 
+    def refresh(self):
+        self.loadLyrics()
+        return self.lyrics_list
+
     def setLyricsList(self, lyrics_list):
         self.lyrics_list = lyrics_list
 
