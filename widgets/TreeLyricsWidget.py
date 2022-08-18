@@ -1,9 +1,14 @@
 from typing import List
 
 from PyQt6 import QtCore, QtGui
-from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QAction, QIcon
 from PyQt6.QtWidgets import QTreeWidget, QTreeWidgetItem, QAbstractItemView, QMenu
+from actions.Lyrics import RefreshAction
+
+import styles
+
+from services.utils import PathUtils
 
 
 class TreeLyricsWidget(QTreeWidget):
@@ -15,7 +20,6 @@ class TreeLyricsWidget(QTreeWidget):
     def __init__(self, columns: List[str], items):
         super().__init__()
         self._on_select_item = None
-        self._refresh = None
 
         self.setColumnCount(2)
         self.setIndentation(0)
@@ -44,9 +48,6 @@ class TreeLyricsWidget(QTreeWidget):
     def onSelectItem(self, _fn):
         self._on_select_item = _fn
 
-    def onRefresh(self, _fn):
-        self._refresh = _fn
-
     def _doubleClicked(self, index: QtCore.QModelIndex) -> None:
         widget_item = self.itemFromIndex(index)
         self.sendToUseArea(widget_item)
@@ -73,18 +74,18 @@ class TreeLyricsWidget(QTreeWidget):
             self.sendToUseArea(item)
 
     def contextMenuEvent(self, event: QtGui.QContextMenuEvent) -> None:
+
+        icon_action_use = QIcon(PathUtils.icon('present_to_all_cian.png'))
         action_use = QAction('Usar')
         action_use.triggered.connect(self.useSelectedLyrics)
+        action_use.setIcon(icon_action_use)
 
         if len(self.selectedItems()) > 1:
             action_use.setText(f'Usar as {len(self.selectedItems())} letras selecionadas')
 
         menu = QMenu()
         menu.addAction(action_use)
+        menu.addAction(RefreshAction())
 
-        if self._refresh is not None:
-            action_refresh = QAction('Atualizar')
-            action_refresh.triggered.connect(self._refresh)
-            menu.addAction(action_refresh)
-
+        menu.setStyleSheet(styles.context_menu_style)
         menu.exec(event.globalPos())

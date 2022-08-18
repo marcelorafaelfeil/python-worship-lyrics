@@ -6,6 +6,8 @@ from core import ApplicationContext, WebSocketServer
 from structure import PresentationScreen
 from widgets import LyricsWidget, SelectedListLyricsWidget, CurrentLyricWidget
 from widgets.tab import Tab, TabTitle
+from actions.SelectedLyrics import RemoveAction
+from actions.Lyrics import RefreshAction
 
 window_style = """
 background-color: #282A37;
@@ -16,9 +18,15 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.lyric_menu = None
+        self.remove_lyric_menu = None
+
+        ApplicationContext.main_window = self
         self.setStyleSheet(window_style)
         self.setWindowTitle('Worship Lyrics')
         self.resize(QSize(1024, 600))
+        self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.menuOrganizer()
 
         lyrics_list = ApplicationContext.lyric_handler.getLyricsList()
 
@@ -41,11 +49,21 @@ class MainWindow(QMainWindow):
         lyric_bar_tab.setBody(CurrentLyricWidget(), False)
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, lyric_bar_tab)
 
+        ApplicationContext.lyric_handler.onChangeVerse(self._onChangeVerse)
+
+    def menuOrganizer(self):
         menu = self.menuBar()
-        file_menu = menu.addMenu("&File")
+        file_menu = menu.addMenu("&Arquivos")
         file_menu.addAction(NewFileAction(self))
 
-        ApplicationContext.lyric_handler.onChangeVerse(self._onChangeVerse)
+        self.remove_lyric_menu = RemoveAction()
+        self.remove_lyric_menu.setEnabled(False)
+
+        self.refresh_menu = RefreshAction()
+
+        self.lyric_menu = menu.addMenu("&Letras")
+        self.lyric_menu.addAction(self.refresh_menu)
+        self.lyric_menu.addAction(self.remove_lyric_menu)
 
     def _onChangeVerse(self, verse):
         content = verse['content']
