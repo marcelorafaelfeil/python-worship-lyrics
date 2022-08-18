@@ -16,7 +16,8 @@ class LyricsWidget(QFrame):
 
         self.lyrics_tree = TreeLyricsWidget(["Título", "Autor"], list_lyrics)
         self.lyrics_tree.onSelectItem(lambda item: self.addToSelectedLyrics(item))
-        self.lyrics_tree.onRefresh(self.refreshLyrics)
+
+        ApplicationContext.lyrics_tree = self.lyrics_tree
 
         layout.addWidget(self.lyrics_tree, 1)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
@@ -24,11 +25,6 @@ class LyricsWidget(QFrame):
 
         self.setLayout(layout)
         self.setObjectName('Lyrics')
-
-    def refreshLyrics(self):
-        lyrics_list = ApplicationContext.lyric_handler.refresh()
-        self.lyrics_tree.setItems(lyrics_list)
-
 
     def addToSelectedLyrics(self, item):
         ApplicationContext.lyric_handler.addToSelectedLyrics(item)
