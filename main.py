@@ -1,6 +1,7 @@
 import sys
 
-from PyQt6.QtWidgets import QApplication
+import PyQt6.QtWidgets
+from PyQt6.QtWidgets import QApplication, QWidget
 from styles.theme import DarkTheme
 
 from MainWindow import MainWindow
@@ -15,9 +16,12 @@ QMainWindow::separator {
 
 Initializer.start()
 
+print(PyQt6.QtWidgets.QStyleFactory.keys())
+
 app = QApplication(sys.argv)
 app.setStyleSheet(app_style)
 app.setDesktopSettingsAware(True)
+app.setStyle('macOS')
 app.setPalette(DarkTheme())
 
 window = MainWindow()
