@@ -11,12 +11,14 @@ app_style = """
 QMainWindow::separator {
     border: 2px solid #111111;
 }
+QHeaderView::section {
+    background-color: #282A37;
+    color: #EFEFEF;
+}
 """
 
 
 Initializer.start()
-
-print(PyQt6.QtWidgets.QStyleFactory.keys())
 
 app = QApplication(sys.argv)
 app.setStyleSheet(app_style)
