@@ -2,9 +2,9 @@ context_menu_style = '''
 QMenu {
     background-color: #282A37;
     padding: 0px;
+    color: #FFFFFF;
 }
 QMenu::item {
-    color: #FFFFFF;
     padding: 5px 15px 5px 5px;
 }
 QMenu::item:selected {
