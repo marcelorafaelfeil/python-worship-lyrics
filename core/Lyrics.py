@@ -66,7 +66,7 @@ class Lyrics:
         path = lyric['path']
         content = []
 
-        f = open(path, 'r')
+        f = open(path, 'r', encoding='utf-8')
         lines = f.readlines()
 
         index = 0
