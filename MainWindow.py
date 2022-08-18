@@ -9,20 +9,16 @@ from widgets.tab import Tab, TabTitle
 from actions.SelectedLyrics import RemoveAction
 from actions.Lyrics import RefreshAction
 
-window_style = """
-background-color: #282A37;
-"""
-
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.refresh_menu = None
         self.lyric_menu = None
         self.remove_lyric_menu = None
 
         ApplicationContext.main_window = self
-        self.setStyleSheet(window_style)
         self.setWindowTitle('Worship Lyrics')
         self.resize(QSize(1024, 600))
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
