@@ -1,8 +1,9 @@
 from typing import List
 
 from PyQt6 import QtCore, QtGui
+from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QTreeWidget, QTreeWidgetItem, QAbstractItemView
+from PyQt6.QtWidgets import QTreeWidget, QTreeWidgetItem, QAbstractItemView, QMenu
 
 
 class TreeSelectedLyricsWidget(QTreeWidget):
@@ -33,6 +34,9 @@ class TreeSelectedLyricsWidget(QTreeWidget):
 
     def _doubleClicked(self, index: QtCore.QModelIndex) -> None:
         widget_item = self.itemFromIndex(index)
+        self.sendToProjector(widget_item)
+
+    def sendToProjector(self, widget_item):
         item = widget_item.data(0, Qt.ItemDataRole.UserRole)
         widget_item.setFlags(TreeSelectedLyricsWidget.item_default_flags)
 
@@ -49,3 +53,35 @@ class TreeSelectedLyricsWidget(QTreeWidget):
             QTreeWidget.dropEvent(self, event)
             event.acceptProposedAction()
             self.clearSelection()
+
+    def _clear(self):
+        self.clear()
+
+    def _removeItem(self, item: QTreeWidgetItem):
+        self.takeTopLevelItem(self.indexOfTopLevelItem(item))
+
+    def contextMenuEvent(self, event: QtGui.QContextMenuEvent) -> None:
+        clicked_item = self.itemAt(event.pos())
+
+        action_clear_all = QAction()
+        action_clear_all.setText('Limpar tudo')
+        action_clear_all.triggered.connect(self._clear)
+
+        action_remove_item = QAction()
+        action_remove_item.setText('Remover')
+        action_remove_item.triggered.connect(lambda: self._removeItem(clicked_item))
+
+        action_project = QAction()
+        action_project.setText('Projetar')
+        action_project.triggered.connect(lambda: self.sendToProjector(clicked_item))
+
+        menu = QMenu()
+
+        if clicked_item is not None:
+            menu.addAction(action_project)
+            menu.addAction(action_remove_item)
+            menu.addSeparator()
+
+        menu.addAction(action_clear_all)
+
+        menu.exec(event.globalPos())
