@@ -43,8 +43,9 @@ class CurrentLyricWidget(QWidget):
             previous_data = previous.data(Qt.ItemDataRole.UserRole)
             previous_data['selected'] = False
 
-        current_data = current.data(Qt.ItemDataRole.UserRole)
-        current_data['selected'] = True
+        if current is not None:
+            current_data = current.data(Qt.ItemDataRole.UserRole)
+            current_data['selected'] = True
 
-        self.lyrics_handle.emitVerseChanged(current_data)
+            self.lyrics_handle.emitVerseChanged(current_data)
 
