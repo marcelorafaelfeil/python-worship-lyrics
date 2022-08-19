@@ -1,3 +1,4 @@
+import qtawesome as qta
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QMainWindow
 
@@ -27,11 +28,11 @@ class MainWindow(QMainWindow):
         lyrics_list = ApplicationContext.lyric_handler.getLyricsList()
 
         lyrics_tab = Tab(self)
-        lyrics_tab.setTitleBarWidget(TabTitle('Letras'))
+        lyrics_tab.setTitleBarWidget(TabTitle('Letras', qta.icon('mdi.text-box-multiple', color='#42E8FF')))
         lyrics_tab.setBody(LyricsWidget(lyrics_list), False)
 
         selected_lyrics_tab = Tab(self)
-        selected_lyrics_tab.setTitleBarWidget(TabTitle('Letras selecionadas'))
+        selected_lyrics_tab.setTitleBarWidget(TabTitle('Letras selecionadas', qta.icon('mdi.star', color='#FFE042')))
         selected_lyrics_tab.setBody(SelectedListLyricsWidget(), False)
 
         self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, lyrics_tab)
@@ -41,7 +42,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(PresentationScreen())
 
         lyric_bar_tab = Tab(self)
-        lyric_bar_tab.setTitleBarWidget(TabTitle('Letra selecionada'))
+        lyric_bar_tab.setTitleBarWidget(TabTitle('Letra selecionada', qta.icon('mdi.television-play', color='#30E842')))
         lyric_bar_tab.setBody(CurrentLyricWidget(), False)
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, lyric_bar_tab)
 

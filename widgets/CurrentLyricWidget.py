@@ -2,13 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QListWidgetItem, QListWidget
 
 from core import ApplicationContext
-
-
-list_style = '''
-QListWidget {
-    color: #FFFFFF;
-}
-'''
+from styles import CurrentLyricStyle
 
 
 class CurrentLyricWidget(QWidget):
@@ -23,7 +17,7 @@ class CurrentLyricWidget(QWidget):
         self.list = QListWidget()
         self.list.setViewportMargins(0, 0, 0, 0)
         self.list.setWordWrap(True)
-        self.list.setStyleSheet(list_style)
+        self.list.setStyleSheet(CurrentLyricStyle.list_style)
         self.list.currentItemChanged.connect(self.onVerseChange)
 
         self.layout = QVBoxLayout()

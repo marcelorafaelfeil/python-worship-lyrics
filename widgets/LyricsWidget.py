@@ -19,9 +19,10 @@ class LyricsWidget(QFrame):
 
         ApplicationContext.lyrics_tree = self.lyrics_tree
 
-        layout.addWidget(self.lyrics_tree, 1)
+        layout.addWidget(self.lyrics_tree)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
         layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
 
         self.setLayout(layout)
         self.setObjectName('Lyrics')
