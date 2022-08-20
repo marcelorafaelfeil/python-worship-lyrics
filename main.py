@@ -8,12 +8,13 @@ from core import Initializer
 from styles.GlobalStyle import global_style
 
 
-Initializer.start()
-
 app = QApplication(sys.argv)
+
 app.setStyleSheet(global_style)
 app.setDesktopSettingsAware(True)
 app.setPalette(DarkTheme())
+
+Initializer.start()
 
 window = MainWindow()
 window.show()

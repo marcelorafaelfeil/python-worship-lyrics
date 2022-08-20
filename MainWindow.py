@@ -2,13 +2,13 @@ import qtawesome as qta
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QMainWindow
 
-from actions.NewFileAction import NewFileAction
+from actions import PreferencesAction
+from actions.Lyrics import RefreshAction
+from actions.SelectedLyrics import RemoveAction
 from core import ApplicationContext, WebSocketServer
 from structure import PresentationScreen
 from widgets import LyricsWidget, SelectedListLyricsWidget, CurrentLyricWidget
 from widgets.tab import Tab, TabTitle
-from actions.SelectedLyrics import RemoveAction
-from actions.Lyrics import RefreshAction
 
 
 class MainWindow(QMainWindow):
@@ -21,7 +21,8 @@ class MainWindow(QMainWindow):
 
         ApplicationContext.main_window = self
         self.setWindowTitle('Worship Lyrics')
-        self.resize(QSize(1024, 600))
+        self.setMinimumSize(QSize(1024, 600))
+        self.showMaximized()
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.menuOrganizer()
 
@@ -47,11 +48,14 @@ class MainWindow(QMainWindow):
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, lyric_bar_tab)
 
         ApplicationContext.lyric_handler.onChangeVerse(self._onChangeVerse)
+        # TODO: Remove it
+        ApplicationContext.window_preference.exec()
 
     def menuOrganizer(self):
         menu = self.menuBar()
         file_menu = menu.addMenu("&Arquivos")
-        file_menu.addAction(NewFileAction(self))
+        # file_menu.addAction(NewFileAction(self))
+        file_menu.addAction(PreferencesAction(self))
 
         self.remove_lyric_menu = RemoveAction()
         self.remove_lyric_menu.setEnabled(False)
