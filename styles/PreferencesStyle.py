@@ -6,4 +6,4 @@ header_style = f'''
     color: {DarkTheme().text().color().name()};
     font-weight: bold;
 }}
-
+'''
