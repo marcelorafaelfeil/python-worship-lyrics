@@ -23,3 +23,4 @@ class WebSocketHandler:
         self.thread = threading.Thread(target=ioloop.IOLoop.current().start)
         self.thread.daemon = True
         self.thread.start()
+
