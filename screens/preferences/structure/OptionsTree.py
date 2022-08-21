@@ -10,7 +10,9 @@ class OptionsTree(QTreeWidget):
 
         self._on_option_selected = _on_option_selected
         self._default_item: QTreeWidgetItem | None = None
+        self.setHeaderHidden(True)
         self._loadItems()
+        self.setMinimumWidth(250)
 
         self.currentItemChanged.connect(self._onSelect)
 

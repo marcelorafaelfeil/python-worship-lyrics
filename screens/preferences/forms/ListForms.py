@@ -8,12 +8,6 @@ advanced_options = ({
     'label': 'HTTP'
 })
 
-options = ({
-    'label': 'Geral',
-    'options': advanced_options
-}, {
-    'label': 'Avançado',
-    'options': advanced_options
-})
+options = advanced_options
 
 default_option = advanced_options[0]

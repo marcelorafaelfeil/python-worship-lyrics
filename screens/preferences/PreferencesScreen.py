@@ -22,6 +22,8 @@ class PreferencesScreen(QDialog):
 
         structure.addLayout(content, 1)
         structure.addLayout(footer)
+        structure.setSpacing(0)
+        structure.setContentsMargins(0, 0, 0, 0)
 
         self.setLayout(structure)
 
