@@ -1,9 +1,7 @@
 import qtawesome as qta
 from PyQt6.QtWidgets import QWidget, QLabel
-from PyQt6.QtGui import QPixmap, QPicture
 
 from widgets.layout import Row, Column
-from services.utils import PathUtils
 
 style = """
 TabTitle > QWidget {

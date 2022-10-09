@@ -48,8 +48,6 @@ class MainWindow(QMainWindow):
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, lyric_bar_tab)
 
         ApplicationContext.lyric_handler.onChangeVerse(self._onChangeVerse)
-        # TODO: Remove it
-        ApplicationContext.window_preference.exec()
 
     def menuOrganizer(self):
         menu = self.menuBar()
