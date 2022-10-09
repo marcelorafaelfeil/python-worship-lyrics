@@ -8,7 +8,7 @@ from actions.SelectedLyrics import RemoveAction
 from core import ApplicationContext, WebSocketServer
 from structure import PresentationScreen
 from widgets import LyricsWidget, SelectedListLyricsWidget, CurrentLyricWidget
-from widgets.tab import Tab, TabTitle
+from widgets.tab import Tab
 
 
 class MainWindow(QMainWindow):
@@ -22,7 +22,6 @@ class MainWindow(QMainWindow):
         ApplicationContext.main_window = self
         self.setWindowTitle('Worship Lyrics')
         self.setMinimumSize(QSize(1024, 600))
-        self.showMaximized()
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.menuOrganizer()
 
