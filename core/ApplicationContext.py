@@ -1,11 +1,13 @@
 from . import Lyrics, MessageHandle, WebSocketServer, WebSocketHandler
+from PyQt6.QtWidgets import QWidget, QDialog
 
 
 class ApplicationContext:
     websocket: WebSocketServer
     lyric_handler: Lyrics
     message_handler: MessageHandle
-    main_window: any
+    main_window: QWidget
+    window_preference: QDialog
     lyrics_tree: any
     selected_lyrics_tree: any
 
