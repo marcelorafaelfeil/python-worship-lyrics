@@ -5,6 +5,7 @@ from styles.theme import DarkTheme
 
 from MainWindow import MainWindow
 from core import Initializer
+from screens.preferences import PreferencesScreen
 from styles.GlobalStyle import global_style
 
 
@@ -16,8 +17,9 @@ app.setPalette(DarkTheme())
 
 Initializer.start()
 
-window = MainWindow()
+window = PreferencesScreen()
+# window = MainWindow()
 window.show()
 
-app.exec()
+test = app.exec()
 
