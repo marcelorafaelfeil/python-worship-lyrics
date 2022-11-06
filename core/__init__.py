@@ -9,3 +9,4 @@ from .HttpRequestConfiguration import HttpRequestConfiguration
 from .HttpHandler import HttpHandler
 from .WebSocketHandler import WebSocketHandler
 from .Initializer import Initializer
+from .SettingsHandler import SettingsHandler

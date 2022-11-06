@@ -1,12 +1,13 @@
 import os
 from pathlib import Path
-from . import ApplicationContext, WebSocketHandler, Lyrics, MessageHandle, HttpHandler
+from . import ApplicationContext, WebSocketHandler, Lyrics, MessageHandle, HttpHandler, SettingsHandler
 from screens.preferences import PreferencesScreen
 
 
 class Initializer:
     @staticmethod
     def start():
+        ApplicationContext.settings = SettingsHandler()
         ApplicationContext.websocket = WebSocketHandler()
         ApplicationContext.http = HttpHandler()
 

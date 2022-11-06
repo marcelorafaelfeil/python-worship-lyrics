@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt, QSize
-from PyQt6.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QDialogButtonBox
+from PyQt6.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout
 
 from .structure import Content, Footer
 
@@ -33,7 +33,6 @@ class PreferencesScreen(QDialog):
 
     def accept(self) -> None:
         super(PreferencesScreen, self).accept()
-
         print('Acertou!')
 
     def reject(self) -> None:

@@ -1,5 +1,5 @@
 import os
-from core.PathUtils import PathUtils
+from services.utils.PathUtils import PathUtils
 from core.Event import Event
 
 

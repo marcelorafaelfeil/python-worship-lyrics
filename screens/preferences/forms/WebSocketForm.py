@@ -6,6 +6,8 @@ from .FormHeader import FormHeader
 
 
 class WebSocketForm(QWidget):
+    _on_change: any
+
     def __init__(self):
         super(WebSocketForm, self).__init__()
 
@@ -90,6 +92,10 @@ class WebSocketForm(QWidget):
 
         return use_custom_widget_1
 
+    def observingForm(self):
+        for form in self.websocket_form:
+            # print(form.text())
+
     def setDisabledCustomWebsocket(self, disabled: bool):
         labels: {Label} = self.websocket_labels
         form: {QWidget} = self.websocket_form
@@ -99,3 +105,7 @@ class WebSocketForm(QWidget):
 
         labels.get('port_number').setDisabled(disabled)
         form.get('websocket_port').setDisabled(disabled)
+
+    def onChange(self, _fn):
+        self._on_change = _fn
+

@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QHBoxLayout, QDialogButtonBox
+from PyQt6.QtWidgets import QDialogButtonBox
 
 
 class Footer(QDialogButtonBox):
@@ -15,6 +15,12 @@ class Footer(QDialogButtonBox):
         self.clicked.connect(self._onClicked)
         self.accepted.connect(accept)
         self.rejected.connect(reject)
+
+    def disableApplyButton(self):
+        self.buttons()[2].setDisabled(True)
+
+    def enableApplyButton(self):
+        self.buttons()[2].setDisabled(False)
 
     def _onClicked(self, button):
         role = self.buttonRole(button)

@@ -23,6 +23,7 @@ class WebSocketServer(WebSocketHandler):
                 client.write_message(message)
             except Exception as e:
                 print('Não foi possível escrever a mensagem')
+                raise e
 
     def on_message(self, message: Union[str, bytes]) -> Optional[Awaitable[None]]:
         pass

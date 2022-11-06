@@ -1,4 +1,4 @@
-from . import Lyrics, MessageHandle, WebSocketServer, WebSocketHandler
+from . import Lyrics, MessageHandle, WebSocketServer, WebSocketHandler, SettingsHandler
 from PyQt6.QtWidgets import QWidget, QDialog
 
 
@@ -10,6 +10,7 @@ class ApplicationContext:
     window_preference: QDialog
     lyrics_tree: any
     selected_lyrics_tree: any
+    settings: SettingsHandler
 
     @staticmethod
     def getMessageHandler() -> MessageHandle:
