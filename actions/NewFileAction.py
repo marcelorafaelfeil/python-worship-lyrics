@@ -1,3 +1,5 @@
+import logging
+
 from PyQt6.QtGui import QAction, QIcon, QKeySequence
 from PyQt6.QtCore import Qt, QKeyCombination
 
@@ -12,5 +14,5 @@ class NewFileAction(QAction):
         self.setShortcut(QKeySequence(QKeyCombination(Qt.Modifier.CTRL, Qt.Key.Key_N)))
 
     def _newFile(self):
-        print('Ué...')
+        logging.debug('new file called...')
 

@@ -16,11 +16,3 @@ class PreferencesAction(QAction):
 
     def _openPreferencesScreen(self):
         result = ApplicationContext.window_preference.exec()
-
-        print(result)
-
-        if result:
-            print('Returnou OK!')
-        else:
-            print('Será que cancelou?')
-

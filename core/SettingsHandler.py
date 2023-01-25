@@ -1,27 +1,44 @@
-import json
+from reactivex import Subject
 
-from services.utils import PathUtils
+from services import SettingsFileService
 
 
 class SettingsHandler:
-    _file_name: str = 'settings.json'
-    _settings: any = {}
+    update_settings_file = Subject()
+    has_settings_changes = Subject()
 
-    def __init__(self):
-        self._settings = self.loadSettingsFile()
+    def __init__(self, context):
+        self.context = context
+        self.update_settings_file.subscribe(self._updateSettingsFile)
+        self._settings_file = SettingsFileService()
 
-    def loadSettingsFile(self):
-        f = open(PathUtils.settings(self._file_name))
-        data = json.load(f)
-        f.close()
+    def startConfiguration(self):
+        self._settings_file.clearTemporarySettings()
 
-        return data
+    def _updateSettingsFile(self, data):
+        self._settings_file.addPropertyInTemporaryFile(data.get('key'), data.get('value'))
+        self.has_settings_changes.on_next(self._settings_file.hasDifference())
 
-    def get(self):
-        return self._settings
+    def updateTemporarySettingsFile(self, key, value):
+        self.update_settings_file.on_next({'key': key, 'value': value})
 
-    def hasDifference(self):
-        saved_file = self.loadSettingsFile()
+    def save(self):
+        self._settings_file.persistTemporarySettings()
+        self.context.core.update()
 
-        return saved_file == self._settings
+    def getTemporaryConfig(self):
+        return self._settings_file.loadSettingsFile(file_type=1)
+
+    def getDefaultConfig(self):
+        return self._settings_file.loadSettingsFile(file_type=0)
+
+    def getConfig(self):
+        default_configuration = self.getDefaultConfig()
+        config = self._settings_file.loadSettingsFile(file_type=2)
+
+        default_configuration.update(config)
+
+        return default_configuration
+
+
 

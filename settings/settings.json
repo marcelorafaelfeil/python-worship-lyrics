@@ -1,7 +1,7 @@
 {
     "websocket": {
-        "port": 4042,
-        "use_custom": true,
-        "host": "10.2.1.102"
+        "port": 4250,
+        "host": "0.0.0.0",
+        "use_custom": true
     }
 }

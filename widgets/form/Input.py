@@ -7,6 +7,9 @@ class Input(QLineEdit):
         super(Input, self).__init__()
         self.setPlaceholderText(placeholder)
 
+        if value is not None:
+            self.setText(value)
+
         self.setObjectName('Input')
         self.setStyleSheet(FormStyle.input_style)
 

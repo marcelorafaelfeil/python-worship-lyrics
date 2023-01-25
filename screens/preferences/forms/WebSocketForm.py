@@ -1,16 +1,29 @@
+import functools
+import logging
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
 from widgets.form import Input, Row, RadioButton, SpinBox
 from widgets import Label
+from screens.preferences.forms import SettingsForm
 from .FormHeader import FormHeader
+from core import ApplicationContext
 
 
-class WebSocketForm(QWidget):
-    _on_change: any
+class WebSocketForm(SettingsForm):
+    _use_custom_key: str = SettingsForm._settings_prefix_key + '.use_custom'
+    _host_key: str = SettingsForm._settings_prefix_key + '.host'
+    _port_key: str = SettingsForm._settings_prefix_key + '.port'
 
     def __init__(self):
-        super(WebSocketForm, self).__init__()
+        super(SettingsForm, self).__init__()
 
+        current_config = ApplicationContext.settings.getTemporaryConfig()
+
+        if bool(current_config) is False:
+            current_config = ApplicationContext.settings.getDefaultConfig()
+
+        self.values = current_config['websocket']
         self.websocket_form: {QWidget} = {}
         self.websocket_labels: {Label} = {}
 
@@ -29,11 +42,14 @@ class WebSocketForm(QWidget):
         not_use_custom = QVBoxLayout()
         use_custom_row = QVBoxLayout()
 
-        use_custom_radio = RadioButton('Não usar configurações personalizadas')
-        use_custom_radio.setChecked(True)
+        not_use_custom_radio = RadioButton('Não usar configurações personalizadas')
+        not_use_custom_radio.setChecked(not self.values['use_custom'])
 
-        form.update({'not_use_custom': use_custom_radio})
-        form.update({'use_custom': RadioButton('Usar configurações de websocket personalizadas')})
+        use_custom_radio = RadioButton('Usar configurações de websocket personalizadas')
+        use_custom_radio.setChecked(self.values['use_custom'])
+
+        form.update({'not_use_custom': not_use_custom_radio})
+        form.update({'use_custom': use_custom_radio})
 
         not_use_custom.addWidget(form.get('not_use_custom'))
         not_use_custom.setAlignment(Qt.AlignmentFlag.AlignTop)
@@ -50,7 +66,9 @@ class WebSocketForm(QWidget):
         form.get('use_custom').toggled.connect(lambda x: self.setDisabledCustomWebsocket(not x))
 
         form_content_widget.setLayout(layout)
-        self.setDisabledCustomWebsocket(True)
+        self.setDisabledCustomWebsocket(not self.values['use_custom'])
+
+        self.formObserver()
 
         return form_content_widget
 
@@ -70,8 +88,8 @@ class WebSocketForm(QWidget):
         labels.update({'host_name': host_label})
         labels.update({'port_number': port_label})
 
-        form.update({'websocket_host': Input(placeholder='0.0.0.0')})
-        form.update({'websocket_port': SpinBox(value=4041)})
+        form.update({'websocket_host': Input(placeholder='0.0.0.0', value=self.values['host'])})
+        form.update({'websocket_port': SpinBox(value=self.values['port'])})
 
         row = Row()
         row.addWidget(labels.get('host_name'))
@@ -92,9 +110,42 @@ class WebSocketForm(QWidget):
 
         return use_custom_widget_1
 
-    def observingForm(self):
-        for form in self.websocket_form:
-            # print(form.text())
+    def formObserver(self):
+        for field_name in self.websocket_form.keys():
+            item = self.websocket_form.get(field_name)
+
+            if isinstance(item, Input):
+                item.textChanged.connect(functools.partial(self._changedEvent, field_name, item))
+            elif isinstance(item, SpinBox):
+                item.valueChanged.connect(functools.partial(self._changedEvent, field_name, item))
+            elif isinstance(item, RadioButton) and field_name == 'use_custom':
+                item.toggled.connect(functools.partial(self._changedEvent, field_name, item))
+
+    def _changedEvent(self, field_name, item):
+        key: str = ''
+
+        try:
+            if field_name == 'websocket_host':
+                key = self._host_key
+            elif field_name == 'websocket_port':
+                key = self._port_key
+            elif field_name == 'use_custom' or field_name == 'not_use_custom':
+                key = self._use_custom_key
+
+            if isinstance(item, RadioButton):
+                value = item.isChecked()
+
+                if item.isChecked():
+                    self.savePropertyInTemporaryFile(self._port_key, self.websocket_form.get('websocket_port').text())
+                    self.savePropertyInTemporaryFile(self._host_key, self.websocket_form.get('websocket_host').text())
+            elif isinstance(item, Input):
+                value = item.text()
+            else:
+                value = item.value()
+
+            self.savePropertyInTemporaryFile(key, value)
+        except Exception as err:
+            logging.error('Internal error to identify the aciton to be saved in the settings temporary file.', err)
 
     def setDisabledCustomWebsocket(self, disabled: bool):
         labels: {Label} = self.websocket_labels
@@ -105,7 +156,3 @@ class WebSocketForm(QWidget):
 
         labels.get('port_number').setDisabled(disabled)
         form.get('websocket_port').setDisabled(disabled)
-
-    def onChange(self, _fn):
-        self._on_change = _fn
-
