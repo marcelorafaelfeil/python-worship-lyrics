@@ -12,3 +12,16 @@ class PathUtils:
     @staticmethod
     def template(template_name: str) -> str:
         return os.path.join(basedir, 'assets', 'template', template_name)
+
+    @staticmethod
+    def settings(file_name: str) -> str:
+        return os.path.join(basedir, 'settings', file_name)
+
+    @staticmethod
+    def validatePath(path: str):
+        last_char = path[-1]
+
+        if last_char != '/':
+            path += '/'
+
+        return path

@@ -1,3 +1,4 @@
+import logging
 from typing import Optional, Awaitable, Union
 
 from tornado.websocket import WebSocketHandler
@@ -13,7 +14,7 @@ class WebSocketServer(WebSocketHandler):
     def open(self):
         WebSocketServer.clients.add(self)
 
-    def onClose(self):
+    def on_close(self):
         WebSocketServer.clients.remove(self)
 
     @classmethod
@@ -22,7 +23,7 @@ class WebSocketServer(WebSocketHandler):
             try:
                 client.write_message(message)
             except Exception as e:
-                print('Não foi possível escrever a mensagem')
+                logging.error("Não foi possível escrever a mensagem.", e)
 
     def on_message(self, message: Union[str, bytes]) -> Optional[Awaitable[None]]:
         pass

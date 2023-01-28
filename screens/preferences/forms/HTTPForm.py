@@ -1,9 +1,10 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel
+from screens.preferences.forms import SettingsForm
 
 
-class HTTPForm(QWidget):
+class HTTPForm(SettingsForm):
     def __init__(self):
-        super(HTTPForm, self).__init__()
+        super(SettingsForm, self).__init__()
 
         layout = QVBoxLayout()
         layout.addWidget(QLabel('HTTP form!'))

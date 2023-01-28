@@ -1,7 +1,6 @@
 from services.utils import PathUtils
 from styles.theme import DarkTheme
 
-
 global_style = f'''
 QMainWindow::separator {{
     border: 2px solid #111111;
@@ -30,6 +29,14 @@ QComboBox::down-arrow {{
 }}
 QPushButton {{
     padding: 5px;
+    background-color: {DarkTheme().window().color().name()};
+    border: 1px solid #111111;
+}}
+QPushButton:hover {{
+        background-color: {DarkTheme().window().color().lighter(125).name()};
+}}
+QPushButton#Primary {{
+    color: {DarkTheme().highlightedText().color().name()};
 }}
 
 QScrollBar:vertical {{

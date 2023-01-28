@@ -17,6 +17,5 @@ class RefreshAction(QAction):
         self.setShortcutVisibleInContextMenu(True)
 
     def _performAction(self):
-        print('Atualizou!')
         lyrics_list = ApplicationContext.lyric_handler.refresh()
         ApplicationContext.lyrics_tree.setItems(lyrics_list)

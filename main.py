@@ -1,3 +1,4 @@
+import logging
 import sys
 
 from PyQt6.QtWidgets import QApplication, QWidget
@@ -7,6 +8,8 @@ from MainWindow import MainWindow
 from core import Initializer
 from styles.GlobalStyle import global_style
 
+logging.basicConfig()
+logging.getLogger().setLevel(logging.DEBUG)
 
 app = QApplication(sys.argv)
 
@@ -19,5 +22,5 @@ Initializer.start()
 window = MainWindow()
 window.show()
 
-app.exec()
+test = app.exec()
 

@@ -3,7 +3,7 @@ from typing import Optional, Awaitable
 from tornado.web import RequestHandler
 
 from services.utils import PathUtils, NetworkUtils
-from .WebSocketHandler import WebSocketHandler
+from core.WebSocketHandler import WebSocketHandler
 
 
 class HttpRequestConfiguration(RequestHandler):

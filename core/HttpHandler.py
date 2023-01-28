@@ -4,7 +4,7 @@ import threading
 from tornado.httpserver import HTTPServer
 from tornado.web import Application
 
-from . import HttpRequestConfiguration
+from core import HttpRequestConfiguration
 
 
 class HttpHandler:
