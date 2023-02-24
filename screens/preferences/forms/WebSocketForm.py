@@ -16,14 +16,9 @@ class WebSocketForm(SettingsForm):
     _port_key: str = SettingsForm._settings_prefix_key + '.port'
 
     def __init__(self):
-        super(SettingsForm, self).__init__()
+        SettingsForm.__init__(self)
 
-        current_config = ApplicationContext.settings.getTemporaryConfig()
-
-        if bool(current_config) is False:
-            current_config = ApplicationContext.settings.getDefaultConfig()
-
-        self.values = current_config['websocket']
+        self.values = self._current_config['websocket']
         self.websocket_form: {QWidget} = {}
         self.websocket_labels: {Label} = {}
 

@@ -1,6 +1,9 @@
-from screens.preferences.forms import WebSocketForm, HTTPForm
+from screens.preferences.forms import WebSocketForm, HTTPForm, GeneralForm
 
 advanced_options = ({
+    'widget': GeneralForm,
+    'label': 'Geral'
+}, {
     'widget': WebSocketForm,
     'label': 'WebSocket'
 }, {
