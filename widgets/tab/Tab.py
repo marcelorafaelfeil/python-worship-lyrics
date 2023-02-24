@@ -1,7 +1,6 @@
 import typing
 
-from PyQt6 import QtCore
-from PyQt6.QtCore import Qt, QSize, QRect
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QDockWidget, QScrollArea, QMainWindow
 from services.utils import DataUtils
 
@@ -15,13 +14,13 @@ border: 0px;
 class Tab(QDockWidget):
     _default_widget_flags = Qt.WindowType.Widget
 
-    def __init__(self, parent: typing.Optional[QMainWindow] = None, flags: Qt.WindowType | None = None):
+    def __init__(self, parent: typing.Optional[QMainWindow] = None, flags: typing.Union[Qt.WindowType, None] = None):
         super(Tab, self).__init__(parent)
 
         self.parent = parent
         self._flags = flags
-        self.body: QWidget | None = None
-        self._last_size: int | None = None
+        self.body: typing.Union[QWidget, None] = None
+        self._last_size: typing[int, None] = None
 
         self.setObjectName('tab')
         self.setFeatures(self.DockWidgetFeature.DockWidgetMovable)

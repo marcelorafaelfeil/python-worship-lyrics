@@ -1,9 +1,10 @@
 from PyQt6.QtWidgets import QLineEdit, QGraphicsOpacityEffect
 from styles import FormStyle
+from typing import Union
 
 
 class Input(QLineEdit):
-    def __init__(self, value: str | None = None, placeholder: str = ''):
+    def __init__(self, value: Union[str, None] = None, placeholder: str = ''):
         super(Input, self).__init__()
         self.setPlaceholderText(placeholder)
 
