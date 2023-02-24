@@ -14,10 +14,27 @@ QHeaderView::section {{
 QHeaderView::section:first {{
     border-right: 1px solid #111111;
 }}
+
+QLineEdit {{
+    border: 3px solid {DarkTheme().base().color().name()};
+    background-color: {DarkTheme().base().color().name()};
+    margin: 0px;
+    padding: 3px;
+}}
+QLineEdit:focus {{
+    border: 3px solid {DarkTheme().link().color().name()};
+    border-radius: 2px;
+}}
 QLineEdit, QComboBox {{
-    padding: 5px;
+    padding: 3px;
     margin: 0px;
 }}
+
+QComboBox {{
+    background-color: {DarkTheme().window().color().name()};
+    border: 1px solid #43475d;
+}}
+
 QComboBox::drop-down {{
     width: 24px;
     border: 0px;
@@ -25,18 +42,24 @@ QComboBox::drop-down {{
 QComboBox::down-arrow {{
     width: 24px;
     height: 24px;
-    image: url({PathUtils.icon('arrow_drop_down.png')});
 }}
+
 QPushButton {{
+    border-radius: 3px;
     padding: 5px;
-    background-color: {DarkTheme().window().color().name()};
-    border: 1px solid #111111;
+    color: #FFFFFF;
+    border: 1px solid #43475d;
+}}
+QPushButton:disabled {{
+    color: rgba(255, 255, 255, 0.3);
+    background-color: rgba({DarkTheme().window().color().lighter(180).name()}, 0.5);
 }}
 QPushButton:hover {{
-        background-color: {DarkTheme().window().color().lighter(125).name()};
+    background-color: {DarkTheme().window().color().lighter(180).name()};
 }}
-QPushButton#Primary {{
-    color: {DarkTheme().highlightedText().color().name()};
+
+QDialogButtonBox QPushButton {{
+    min-width: 80px;
 }}
 
 QScrollBar:vertical {{

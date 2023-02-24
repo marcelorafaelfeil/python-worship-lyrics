@@ -2,7 +2,6 @@ from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout
 
 from .structure import Content, Footer
-from styles.DialogStyle import dialog_style
 from core import ApplicationContext
 
 
@@ -18,7 +17,6 @@ class PreferencesScreen(QDialog):
         self.setWindowFlags(
             Qt.WindowType.CustomizeWindowHint | Qt.WindowType.WindowCloseButtonHint | Qt.WindowType.WindowMaximizeButtonHint)
         self.setMinimumSize(QSize(900, 700))
-        self.setStyleSheet(dialog_style)
 
         self._renderLayout()
 

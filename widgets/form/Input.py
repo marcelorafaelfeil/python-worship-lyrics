@@ -12,7 +12,6 @@ class Input(QLineEdit):
             self.setText(value)
 
         self.setObjectName('Input')
-        self.setStyleSheet(FormStyle.input_style)
 
     def setDisabled(self, disabled: bool) -> None:
         super(Input, self).setDisabled(disabled)

@@ -3,11 +3,11 @@ import logging
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
-from widgets.form import Input, Row, RadioButton, SpinBox
-from widgets import Label
+
 from screens.preferences.forms import SettingsForm
+from widgets import Label
+from widgets.form import Input, Row, RadioButton, SpinBox
 from .FormHeader import FormHeader
-from core import ApplicationContext
 
 
 class WebSocketForm(SettingsForm):
