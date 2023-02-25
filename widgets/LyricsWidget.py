@@ -1,9 +1,9 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QVBoxLayout, QTreeWidget, QTreeWidgetItem, QAbstractItemView, QFrame
+from PyQt6.QtWidgets import QVBoxLayout, QFrame
 
 from core import ApplicationContext
-from widgets.form import SearchInput
 from services import LyricSearchService
+from widgets.form import SearchInput
 from . import TreeLyricsWidget
 
 
@@ -28,11 +28,11 @@ class LyricsWidget(QFrame):
         self.setObjectName('Lyrics')
 
     def addToSelectedLyrics(self, item):
-        ApplicationContext.lyric_handler.addToSelectedLyrics(item)
+        ApplicationContext.lyric_handler.add_to_selected_lyrics(item)
 
     def searchLyrics(self, value, search_by):
         handle = ApplicationContext.lyric_handler
-        search_service = LyricSearchService(handle.getLyricsList(), value)
+        search_service = LyricSearchService(handle.get_lyrics_list(), value)
         result = []
 
         if search_by == 0:

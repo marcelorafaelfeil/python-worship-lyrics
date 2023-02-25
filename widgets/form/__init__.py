@@ -5,3 +5,4 @@ from .RadioButton import RadioButton
 from .Row import Row
 from .SpinBox import SpinBox
 from .Button import Button
+from .IconButton import IconButton

@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.menuOrganizer()
 
-        lyrics_list = ApplicationContext.lyric_handler.getLyricsList()
+        lyrics_list = ApplicationContext.lyric_handler.get_lyrics_list()
 
         lyrics_tab = Tab(self, Qt.WindowType.WindowMinimizeButtonHint)
         lyrics_tab.setTitle('Letras', qta.icon('mdi.text-box-multiple', color='#42E8FF'))
@@ -46,7 +46,7 @@ class MainWindow(QMainWindow):
         lyric_bar_tab.setBody(CurrentLyricWidget(), False)
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, lyric_bar_tab)
 
-        ApplicationContext.lyric_handler.onChangeVerse(self._onChangeVerse)
+        ApplicationContext.lyric_handler.on_change_verse(self._onChangeVerse)
 
     def menuOrganizer(self):
         menu = self.menuBar()

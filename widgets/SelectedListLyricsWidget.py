@@ -34,14 +34,14 @@ class SelectedListLyricsWidget(QFrame):
         window.remove_lyric_menu.setEnabled(False)
 
     def selectItem(self, item):
-        ApplicationContext.lyric_handler.setSelectedLyric(item)
+        ApplicationContext.lyric_handler.set_selected_lyric(item)
 
     def addNewItemToSelected(self, item):
         self.lyrics_tree.addItem([item['name'], item['author']], item)
 
     def _onSelectLyricEvent(self):
         lyric_handle = ApplicationContext.lyric_handler
-        lyric_handle.onAddToSelectedLyric(self.addNewItemToSelected)
+        lyric_handle.on_add_to_selected_lyric(self.addNewItemToSelected)
 
     def _startEvents(self):
         self._onSelectLyricEvent()

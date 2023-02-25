@@ -1,19 +1,6 @@
 from services.utils import PathUtils
 from styles.theme import DarkTheme
 
-input_style = f'''
-QLineEdit {{
-    border: 3px solid {DarkTheme().base().color().name()};
-    background-color: {DarkTheme().base().color().name()};
-    margin: 0px;
-    padding: 3px;
-}}
-QLineEdit:focus {{
-    border: 3px solid {DarkTheme().link().color().name()};
-    border-radius: 2px;
-}}
-'''
-
 spinbox_style = f'''
 QSpinBox {{
     border: 3px solid {DarkTheme().base().color().name()};
@@ -73,3 +60,4 @@ QRadioButton::indicator::checked {{
     image: url({PathUtils.icon('radio_bullet.png')});
 }}
 '''
+

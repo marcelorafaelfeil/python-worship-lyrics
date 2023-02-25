@@ -10,7 +10,7 @@ class CurrentLyricWidget(QWidget):
         super(CurrentLyricWidget, self).__init__()
         self.setObjectName('currentLyricWidget')
 
-        ApplicationContext.lyric_handler.onChangeLyric(self.onSelectLyric)
+        ApplicationContext.lyric_handler.on_change_lyric(self.onSelectLyric)
 
         self.lyrics_handle = ApplicationContext.lyric_handler
 
@@ -27,7 +27,7 @@ class CurrentLyricWidget(QWidget):
         self.setLayout(self.layout)
 
     def onSelectLyric(self, lyric):
-        list_lines = self.lyrics_handle.getCurrentLyricContent()
+        list_lines = self.lyrics_handle.get_current_lyric_content()
 
         self.list.clear()
 
@@ -47,5 +47,5 @@ class CurrentLyricWidget(QWidget):
             current_data = current.data(Qt.ItemDataRole.UserRole)
             current_data['selected'] = True
 
-            self.lyrics_handle.emitVerseChanged(current_data)
+            self.lyrics_handle.emit_verse_changed(current_data)
 

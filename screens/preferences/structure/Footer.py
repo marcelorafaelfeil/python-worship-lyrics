@@ -16,7 +16,7 @@ class Footer(QDialogButtonBox):
         self.accepted.connect(accept)
         self.rejected.connect(reject)
 
-        self.setContentsMargins(0, 0, 10, 0)
+        self.setContentsMargins(0, 0, 10, 10)
 
     def disableApplyButton(self):
         self.buttons()[2].setDisabled(True)
