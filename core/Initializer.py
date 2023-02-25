@@ -31,4 +31,4 @@ class Initializer:
                 os.mkdir(home_path)
 
             ApplicationContext.settings.updateTemporarySettingsFile("general.directory.path", home_path)
-            ApplicationContext.settings.save()
+            ApplicationContext.settings.save(False)

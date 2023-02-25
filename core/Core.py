@@ -1,6 +1,3 @@
-import logging
-
-
 class Core:
 
     def __init__(self, context):
