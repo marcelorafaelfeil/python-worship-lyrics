@@ -2,6 +2,7 @@ import os
 from os import path
 
 from core import Core, ApplicationContext, WebSocketHandler, Lyrics, HttpHandler, SettingsHandler
+from screens.lyrics import NewLyricScreen
 from screens.preferences import PreferencesScreen
 
 
@@ -18,6 +19,7 @@ class Initializer:
         ApplicationContext.lyric_handler.load_lyrics()
         ApplicationContext.websocket_handler = WebSocketHandler(ApplicationContext)
         ApplicationContext.window_preference = PreferencesScreen()
+        ApplicationContext.window_new_lyric = NewLyricScreen()
 
     @staticmethod
     def prepare_default_settings():

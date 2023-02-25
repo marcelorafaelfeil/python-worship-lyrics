@@ -1,2 +1,2 @@
-from .NewFileAction import NewFileAction
+from .NewLyricAction import NewLyricAction
 from .PreferencesAction import PreferencesAction

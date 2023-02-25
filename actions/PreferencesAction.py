@@ -1,3 +1,4 @@
+import qtawesome
 from PyQt6.QtGui import QAction, QIcon, QKeySequence
 from PyQt6.QtCore import Qt, QKeyCombination
 from PyQt6.QtWidgets import QDialogButtonBox
@@ -11,8 +12,9 @@ class PreferencesAction(QAction):
 
         self.setText('Preferências')
         self.triggered.connect(self._openPreferencesScreen)
+        self.setIcon(QIcon(qtawesome.icon('mdi6.cog')))
 
         self.setShortcut(QKeySequence(QKeyCombination(Qt.Modifier.CTRL, Qt.Key.Key_Comma)))
 
     def _openPreferencesScreen(self):
-        result = ApplicationContext.window_preference.exec()
+        ApplicationContext.window_preference.exec()

@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QMainWindow
 
 from actions import PreferencesAction
 from actions.Lyrics import RefreshAction
+from actions.NewLyricAction import NewLyricAction
 from actions.SelectedLyrics import RemoveAction
 from core import ApplicationContext, WebSocketServer
 from structure import PresentationScreen
@@ -51,7 +52,7 @@ class MainWindow(QMainWindow):
     def menuOrganizer(self):
         menu = self.menuBar()
         file_menu = menu.addMenu("&Arquivos")
-        # file_menu.addAction(NewFileAction(self))
+        file_menu.addAction(NewLyricAction(self))
         file_menu.addAction(PreferencesAction(self))
 
         self.remove_lyric_menu = RemoveAction()
