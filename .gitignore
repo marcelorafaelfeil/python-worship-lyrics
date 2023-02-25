@@ -6,3 +6,4 @@ dist/
 .DS_Store
 settings/settings.json
 settings/settings_temp.wl
+Output/
