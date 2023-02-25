@@ -23,9 +23,11 @@ class SettingsHandler:
     def updateTemporarySettingsFile(self, key, value):
         self.update_settings_file.on_next({'key': key, 'value': value})
 
-    def save(self):
+    def save(self, update_tree=True):
         self._settings_file.persistTemporarySettings()
-        self.context.core.update()
+
+        if update_tree:
+            self.context.core.update()
 
     def getTemporaryConfig(self):
         return self._settings_file.loadSettingsFile(file_type=1)
