@@ -4,6 +4,7 @@ import logging
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
 
+from core import ApplicationContext
 from screens.preferences.forms import SettingsForm
 from widgets import Label
 from widgets.form import Input, Row, RadioButton, SpinBox
@@ -18,7 +19,11 @@ class WebSocketForm(SettingsForm):
     def __init__(self):
         SettingsForm.__init__(self)
 
-        self.values = self._current_config['websocket']
+        host = ApplicationContext.settings.get_websocket_host()
+        port = ApplicationContext.settings.get_websocket_port()
+        use_custom = ApplicationContext.settings.get_websocket_use_custom()
+
+        self.values = {'host': host, 'port': port, 'use_custom': use_custom}
         self.websocket_form: {QWidget} = {}
         self.websocket_labels: {Label} = {}
 

@@ -56,9 +56,9 @@ class SettingsHandler:
         else:
             default_config = self.getDefaultConfig()
             if (
-                ('general' in default_config) and
-                ('directory' in default_config['general']) and
-                ('path' in default_config['general']['directory'])
+                    ('general' in default_config) and
+                    ('directory' in default_config['general']) and
+                    ('path' in default_config['general']['directory'])
             ):
                 path = default_config['general']['directory']['path']
 
@@ -66,4 +66,61 @@ class SettingsHandler:
             path += os.path.sep
 
         return path
+
+    def get_websocket_host(self):
+        config = self.getConfig()
+        host = None
+
+        if (
+                ('websocket' in config) and
+                ('host' in config['websocket'])
+        ):
+            host = config['websocket']['host']
+        else:
+            default_config = self.getDefaultConfig()
+            if (
+                ('websocket' in default_config) and
+                ('host' in default_config['general'])
+            ):
+                host = default_config['websocket']['host']
+
+        return host
+
+    def get_websocket_port(self):
+        config = self.getConfig()
+        port = None
+
+        if (
+                ('websocket' in config) and
+                ('port' in config['websocket'])
+        ):
+            port = config['websocket']['port']
+        else:
+            default_config = self.getDefaultConfig()
+            if (
+                ('websocket' in default_config) and
+                ('port' in default_config['general'])
+            ):
+                port = default_config['websocket']['port']
+
+        return port
+
+    def get_websocket_use_custom(self):
+        config = self.getConfig()
+        use_custom = None
+
+        if (
+                ('websocket' in config) and
+                ('use_custom' in config['websocket'])
+        ):
+            use_custom = config['websocket']['use_custom']
+        else:
+            default_config = self.getDefaultConfig()
+            if (
+                ('websocket' in default_config) and
+                ('use_custom' in default_config['general'])
+            ):
+                use_custom = default_config['websocket']['use_custom']
+
+        return use_custom
 
