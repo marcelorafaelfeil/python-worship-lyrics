@@ -3,7 +3,8 @@ import sys
 
 from PyQt6.QtWidgets import QApplication
 
-from core import Initializer, ApplicationContext
+from MainWindow import MainWindow
+from core import Initializer
 from styles.GlobalStyle import global_style
 from styles.theme import DarkTheme
 
@@ -18,9 +19,8 @@ app.setPalette(DarkTheme())
 
 Initializer.start()
 
-ApplicationContext.window_preference.show()
-# window = MainWindow()
-# window.show()
+window = MainWindow()
+window.show()
 
 test = app.exec()
 

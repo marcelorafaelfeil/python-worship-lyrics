@@ -7,6 +7,6 @@ class Core:
         self.context = context
 
     def update(self):
-        # TODO: put all update here
+        self.context.lyric_handler.refresh()
         pass
 

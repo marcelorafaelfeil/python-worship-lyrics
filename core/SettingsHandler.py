@@ -1,6 +1,7 @@
 from reactivex import Subject
 
 from services import SettingsFileService
+import os
 
 
 class SettingsHandler:
@@ -40,5 +41,27 @@ class SettingsHandler:
 
         return default_configuration
 
+    def get_directory_path(self):
+        config = self.getConfig()
+        path = None
 
+        if (
+                ('general' in config) and
+                ('directory' in config['general']) and
+                ('path' in config['general']['directory'])
+        ):
+            path = config['general']['directory']['path']
+        else:
+            default_config = self.getDefaultConfig()
+            if (
+                ('general' in default_config) and
+                ('directory' in default_config['general']) and
+                ('path' in default_config['general']['directory'])
+            ):
+                path = default_config['general']['directory']['path']
+
+        if path is not None and path[-1] != os.path.sep:
+            path += os.path.sep
+
+        return path
 

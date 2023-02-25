@@ -1,3 +1,5 @@
+import logging
+
 import qtawesome
 from PyQt6 import QtCore
 from PyQt6.QtCore import Qt
@@ -11,8 +13,11 @@ from widgets.form import Input, IconButton
 class DirectoryForm(QWidget):
     _fixed_label_width: int = 120
 
-    def __init__(self):
+    def __init__(self, default_value: str = None, when_save=None):
         super().__init__()
+
+        self.default_value = default_value
+        self.when_save = when_save
 
         layout = QVBoxLayout()
         layout.addWidget(FormHeader("Diretório"))
@@ -25,7 +30,6 @@ class DirectoryForm(QWidget):
         layout = QVBoxLayout()
 
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-
         layout.addLayout(self._render_content_input())
 
         form_content_widget.setLayout(layout)
@@ -50,7 +54,7 @@ class DirectoryForm(QWidget):
     def _render_input(self):
         layout_input = QHBoxLayout()
 
-        self.directory_path_input = Input()
+        self.directory_path_input = Input(self.default_value)
         layout_input.addWidget(self.directory_path_input)
         layout_input.addWidget(self._render_button_dialog(), 0)
 
@@ -71,4 +75,8 @@ class DirectoryForm(QWidget):
         if directory_dialog.exec():
             selected_directory = directory_dialog.selectedFiles()[0]
             self.directory_path_input.setText(selected_directory)
-            # TODO: Save this value in the temporary config
+
+            if self.when_save is None:
+                logging.warning("It's necessary to specify a value for \"when_save\"")
+            else:
+                self.when_save(selected_directory)

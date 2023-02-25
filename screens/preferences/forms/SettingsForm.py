@@ -13,7 +13,7 @@ class SettingsForm(QWidget):
         self._current_config = ApplicationContext.settings.getTemporaryConfig()
 
         if bool(self._current_config) is False:
-            current_config = ApplicationContext.settings.getDefaultConfig()
+            self._current_config = ApplicationContext.settings.getDefaultConfig()
 
     def savePropertyInTemporaryFile(self, key, value):
         try:
