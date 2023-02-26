@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Worship Lyrics"
-#define MyAppVersion "0.0.1"
+#define MyAppVersion "0.0.5-beta"
 #define MyAppPublisher "developer.pro.br"
 #define MyAppURL "developer.pro.br"
 #define MyAppExeName "Worship Lyrics.exe"
