@@ -24,6 +24,24 @@ class LyricsManagementService:
             f.write(lyric.lyric)
 
     @staticmethod
+    def update_lyric(lyric: Lyric):
+        LyricsManagementService.remove_lyric(lyric)
+        LyricsManagementService.create_new_lyric(lyric)
+
+    @staticmethod
     def remove_lyric(lyric: Lyric):
         if os.path.exists(lyric.path):
             os.remove(lyric.path)
+
+            dir_path = os.path.dirname(lyric.path)
+            if not os.listdir(dir_path):
+                os.rmdir(dir_path)
+
+    @staticmethod
+    def get_lyric_by_path(path):
+        content = ''
+        if os.path.exists(path):
+            with open(path, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+        return content

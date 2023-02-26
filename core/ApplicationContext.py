@@ -8,7 +8,7 @@ class ApplicationContext:
     websocket_handler: WebSocketHandler
     main_window: QWidget
     window_preference: QDialog
-    window_new_lyric: QDialog
+    window_new_lyric: any
     lyrics_tree: any
     selected_lyrics_tree: any
     settings: SettingsHandler
