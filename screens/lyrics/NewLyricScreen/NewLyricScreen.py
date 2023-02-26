@@ -1,3 +1,5 @@
+import typing
+
 from PyQt6.QtCore import QSize
 from PyQt6.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QMessageBox, QPlainTextEdit
 
@@ -10,6 +12,8 @@ from services.LyricsManagementService import LyricsManagementService
 
 
 class NewLyricScreen(QDialog):
+
+    _selected_lyric: typing.Union[Lyric, None] = None
 
     def __init__(self):
         super(NewLyricScreen, self).__init__()
@@ -55,8 +59,16 @@ class NewLyricScreen(QDialog):
                 self._alert('É necessário preencher a letra da música.').show()
             return
 
-        LyricsManagementService.create_new_lyric(Lyric(name, author, lyric))
+        if not self._selected_lyric:
+            LyricsManagementService.create_new_lyric(Lyric(name, author, lyric))
+        else:
+            self._selected_lyric.name = name
+            self._selected_lyric.author = author
+            self._selected_lyric.lyric = lyric
+            LyricsManagementService.update_lyric(self._selected_lyric)
+
         self._form.reset()
+        self._selected_lyric = None
         ApplicationContext.lyric_handler.refresh()
 
         self.close()
@@ -79,3 +91,12 @@ class NewLyricScreen(QDialog):
         lyric_input: QPlainTextEdit = self._form.get_lyric_input()
         text = lyric_input.toPlainText().lower()
         lyric_input.setPlainText(text)
+
+    def update_lyric(self, lyric: Lyric):
+        self._form.set_song_name(lyric.name)
+        self._form.set_author(lyric.author)
+        self._form.set_lyric(lyric.lyric)
+
+        self._selected_lyric = lyric
+
+        self.show()
