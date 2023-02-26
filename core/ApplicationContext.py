@@ -1,18 +1,18 @@
-from . import Lyrics, MessageHandle, WebSocketServer, WebSocketHandler
+from core import Lyrics, WebSocketHandler, SettingsHandler, Core
+from PyQt6.QtWidgets import QWidget, QDialog
 
 
 class ApplicationContext:
-    websocket: WebSocketServer
+    core: Core
     lyric_handler: Lyrics
-    message_handler: MessageHandle
-    main_window: any
+    websocket_handler: WebSocketHandler
+    main_window: QWidget
+    window_preference: QDialog
+    window_new_lyric: QDialog
     lyrics_tree: any
     selected_lyrics_tree: any
+    settings: SettingsHandler
 
     @staticmethod
-    def getMessageHandler() -> MessageHandle:
-        return ApplicationContext.message_handler
-
-    @staticmethod
-    def getWebsocket() -> WebSocketServer:
-        return ApplicationContext.websocket
+    def getWebsocket() -> WebSocketHandler:
+        return ApplicationContext.websocket_handler

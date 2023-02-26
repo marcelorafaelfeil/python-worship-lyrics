@@ -1,3 +1,5 @@
+import logging
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
 
@@ -17,9 +19,9 @@ class PresentationScreen(QWidget):
         self.setLayout(layout)
 
     def __verseChangedObserver(self):
-        self.handle_lyrics.onChangeLyric(self.__changeText)
+        self.handle_lyrics.on_change_lyric(self.__changeText)
 
     def __changeText(self, item):
-        print(f'item: {item}')
+        logging.debug('item: %s', item)
 
 

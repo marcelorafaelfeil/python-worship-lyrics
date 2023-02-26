@@ -12,4 +12,5 @@ class DarkTheme(QPalette):
         self.setColor(QPalette.ColorRole.Button, QColor('#282A37'))
         self.setColor(QPalette.ColorRole.Highlight, QColor(38, 40, 52))
         self.setColor(QPalette.ColorRole.HighlightedText, QColor(150, 236, 234))
+        self.setColor(QPalette.ColorRole.Link, QColor('#FF6EC8'))
         self.setColor(QPalette.ColorRole.PlaceholderText, QColor('#555555'))

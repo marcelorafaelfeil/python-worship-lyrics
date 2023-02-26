@@ -3,7 +3,8 @@ from typing import Optional, Awaitable
 from tornado.web import RequestHandler
 
 from services.utils import PathUtils, NetworkUtils
-from .WebSocketHandler import WebSocketHandler
+from core.WebSocketHandler import WebSocketHandler
+from core import ApplicationContext
 
 
 class HttpRequestConfiguration(RequestHandler):
@@ -22,8 +23,10 @@ class HttpRequestConfiguration(RequestHandler):
             host = NetworkUtils.getIPAddress()
         html_file.close()
 
+        websocket_handler = ApplicationContext.websocket_handler
+
         html = html.replace('{{WebSocketHost}}', host)
-        html = html.replace('{{WebSocketPort}}', str(WebSocketHandler.websocket_port))
+        html = html.replace('{{WebSocketPort}}', str(websocket_handler.get_port()))
 
         self.write(html)
 
