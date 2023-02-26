@@ -2,7 +2,7 @@ import os
 from os import path
 
 from core import Core, ApplicationContext, WebSocketHandler, Lyrics, HttpHandler, SettingsHandler
-from screens.lyrics import NewLyricScreen
+from screens.lyrics.NewLyricScreen import NewLyricScreen
 from screens.preferences import PreferencesScreen
 
 
