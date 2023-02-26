@@ -103,4 +103,7 @@ QMessageBox {{
     background-color: {DarkTheme().window().color().name()};
     color: {DarkTheme().text().color().name()};
 }}
+QMessageBox QPushButton {{
+    background-color: {DarkTheme().window().color().darker(150).name()};
+}}
 '''

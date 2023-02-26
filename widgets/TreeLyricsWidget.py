@@ -1,13 +1,16 @@
 from typing import List
 
+import qtawesome
 from PyQt6 import QtCore, QtGui
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QAction, QIcon
-from PyQt6.QtWidgets import QTreeWidget, QTreeWidgetItem, QAbstractItemView, QMenu
-from actions.Lyrics import RefreshAction
+from PyQt6.QtCore import Qt, QKeyCombination
+from PyQt6.QtGui import QAction, QIcon, QKeySequence
+from PyQt6.QtWidgets import QTreeWidget, QTreeWidgetItem, QAbstractItemView, QMenu, QMessageBox
 
 import styles
-
+from actions.Lyrics import RefreshAction
+from core import ApplicationContext
+from entity.Lyric import Lyric
+from services.LyricsManagementService import LyricsManagementService
 from services.utils import PathUtils
 
 
@@ -80,12 +83,35 @@ class TreeLyricsWidget(QTreeWidget):
         action_use.triggered.connect(self.useSelectedLyrics)
         action_use.setIcon(icon_action_use)
 
+        icon_remove_action = QIcon(qtawesome.icon('mdi6.trash-can-outline', color='#EB5151'))
+        remove_action = QAction('Remover')
+        remove_action.triggered.connect(self.alert_remove_lyric)
+        remove_action.setIcon(icon_remove_action)
+
         if len(self.selectedItems()) > 1:
             action_use.setText(f'Usar as {len(self.selectedItems())} letras selecionadas')
 
         menu = QMenu()
         menu.addAction(action_use)
         menu.addAction(RefreshAction())
+        menu.addAction(remove_action)
 
         menu.setStyleSheet(styles.context_menu_style)
         menu.exec(event.globalPos())
+
+    def alert_remove_lyric(self):
+        alert = QMessageBox(self)
+        alert.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+        alert.setText("Tem certeza que deseja remover essa letra?")
+        alert.accepted.connect(self.remove_lyrics)
+
+        alert.show()
+
+    def remove_lyrics(self):
+        for selected_item in self.selectedItems():
+            item = selected_item.data(0, Qt.ItemDataRole.UserRole)
+
+            if item is not None:
+                LyricsManagementService.remove_lyric(Lyric(item['name'], item['author'], None, item['path']))
+
+        ApplicationContext.lyric_handler.refresh()

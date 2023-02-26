@@ -22,3 +22,8 @@ class LyricsManagementService:
 
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(lyric.lyric)
+
+    @staticmethod
+    def remove_lyric(lyric: Lyric):
+        if os.path.exists(lyric.path):
+            os.remove(lyric.path)
