@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QDialogButtonBox
 
 
 class Footer(QDialogButtonBox):
+
     def __init__(self, accept, reject, apply):
         super(Footer, self).__init__()
 

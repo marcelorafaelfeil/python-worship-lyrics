@@ -1,4 +1,3 @@
-from services.utils import PathUtils
 from styles.theme import DarkTheme
 
 global_style = f'''
@@ -15,13 +14,13 @@ QHeaderView::section:first {{
     border-right: 1px solid #111111;
 }}
 
-QLineEdit {{
+QLineEdit, QPlainTextEdit {{
     border: 3px solid {DarkTheme().base().color().name()};
     background-color: {DarkTheme().base().color().name()};
     margin: 0px;
     padding: 3px;
 }}
-QLineEdit:focus {{
+QLineEdit:focus, QPlainTextEdit:focus {{
     border: 3px solid {DarkTheme().link().color().name()};
     border-radius: 2px;
 }}
@@ -98,5 +97,10 @@ QTreeView {{
 }}
 QTreeView::item {{
     padding: 3px 0;
+}}
+
+QMessageBox {{
+    background-color: {DarkTheme().window().color().name()};
+    color: {DarkTheme().text().color().name()};
 }}
 '''
