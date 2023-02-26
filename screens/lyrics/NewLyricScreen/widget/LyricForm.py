@@ -30,6 +30,15 @@ class LyricForm(QWidget):
         self._form['lyric'].setPlaceholderText('Letra da música')
         return self._form['lyric']
 
+    def set_song_name(self, name: str):
+        self._form['song_name'].setText(name)
+
+    def set_author(self, author: str):
+        self._form['author'].setText(author)
+
+    def set_lyric(self, lyric: str):
+        self._form['lyric'].setPlainText(lyric)
+
     def get_song_name(self):
         return self._form['song_name'].text()
 
@@ -38,6 +47,9 @@ class LyricForm(QWidget):
 
     def get_lyric(self):
         return self._form['lyric'].toPlainText()
+
+    def get_lyric_input(self) -> QPlainTextEdit:
+        return self._form['lyric']
 
     def reset(self):
         self._form['song_name'].clear()
