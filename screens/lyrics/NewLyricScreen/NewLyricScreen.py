@@ -1,5 +1,5 @@
 from PyQt6.QtCore import QSize
-from PyQt6.QtWidgets import QDialog, QHBoxLayout, QLabel, QVBoxLayout, QMessageBox
+from PyQt6.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QMessageBox, QPlainTextEdit
 
 from core import ApplicationContext
 from entity.Lyric import Lyric
@@ -24,7 +24,10 @@ class NewLyricScreen(QDialog):
         layout.setSpacing(0)
 
         layout.addWidget(self._form)
-        layout.addWidget(LyricButtons())
+        layout.addWidget(LyricButtons(
+            on_uppercase=self.transform_to_uppercase,
+            on_lowercase=self.transform_to_lowercase
+        ))
 
         structure_layout.addLayout(layout)
         structure_layout.addWidget(self._footer)
@@ -66,3 +69,13 @@ class NewLyricScreen(QDialog):
 
     def cancel(self):
         self.close()
+
+    def transform_to_uppercase(self):
+        lyric_input: QPlainTextEdit = self._form.get_lyric_input()
+        text = lyric_input.toPlainText().upper()
+        lyric_input.setPlainText(text)
+
+    def transform_to_lowercase(self):
+        lyric_input: QPlainTextEdit = self._form.get_lyric_input()
+        text = lyric_input.toPlainText().lower()
+        lyric_input.setPlainText(text)

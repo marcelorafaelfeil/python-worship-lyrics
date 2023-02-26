@@ -39,6 +39,9 @@ class LyricForm(QWidget):
     def get_lyric(self):
         return self._form['lyric'].toPlainText()
 
+    def get_lyric_input(self) -> QPlainTextEdit:
+        return self._form['lyric']
+
     def reset(self):
         self._form['song_name'].clear()
         self._form['author'].clear()
