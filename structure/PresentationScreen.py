@@ -9,19 +9,16 @@ from core import ApplicationContext
 class PresentationScreen(QWidget):
     def __init__(self):
         super(PresentationScreen, self).__init__()
-        self.handle_lyrics = ApplicationContext.lyric_handler
+        self.lyrics_service = ApplicationContext.lyrics_service
 
-        self.__verseChangedObserver()
+        self.lyrics_service.project_verse.subscribe(self._changeText)
 
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         self.setLayout(layout)
 
-    def __verseChangedObserver(self):
-        self.handle_lyrics.on_change_lyric(self.__changeText)
-
-    def __changeText(self, item):
+    def _changeText(self, item):
         logging.debug('item: %s', item)
 
 

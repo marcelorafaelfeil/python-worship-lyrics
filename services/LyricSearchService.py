@@ -1,20 +1,23 @@
 import unidecode
 
+from core import ApplicationContext
+
 
 class LyricSearchService:
-    def __init__(self, lyrics_list, text_to_search: str):
-        self.lyrics_list = lyrics_list
+    def __init__(self, text_to_search: str):
+        self.lyrics_services = ApplicationContext.lyrics_service
         self.text_to_search = text_to_search
+        self.lyrics_list = self.lyrics_services.data
 
     def search(self):
-        self.searchByName()
+        self.search_by_name()
 
-    def searchByName(self):
+    def search_by_name(self):
         result = []
         lyrics_list = self.lyrics_list
 
         for lyric in lyrics_list:
-            name: str = unidecode.unidecode(lyric['name'])
+            name: str = unidecode.unidecode(lyric.name)
             search: str = unidecode.unidecode(self.text_to_search)
 
             name = name.lower()
@@ -25,12 +28,12 @@ class LyricSearchService:
 
         return result
 
-    def searchByAuthor(self):
+    def search_by_author(self):
         result = []
         lyrics_list = self.lyrics_list
 
         for lyric in lyrics_list:
-            author: str = unidecode.unidecode(lyric['author'])
+            author: str = unidecode.unidecode(lyric.author)
             search: str = unidecode.unidecode(self.text_to_search)
 
             if author.find(search) >= 0:
@@ -38,12 +41,12 @@ class LyricSearchService:
 
         return result
 
-    def searchByLyric(self):
+    def search_by_lyric(self):
         result = []
         lyrics_list = self.lyrics_list
 
         for lyric in lyrics_list:
-            path: str = lyric['path']
+            path: str = lyric.path
 
             f = open(path, 'r')
 

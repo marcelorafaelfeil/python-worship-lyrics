@@ -7,9 +7,15 @@ from actions.Lyrics import RefreshAction
 from actions.NewLyricAction import NewLyricAction
 from actions.SelectedLyrics import RemoveAction
 from core import ApplicationContext, WebSocketServer
+from entity.LyricLine import LyricLine
 from structure import PresentationScreen
 from widgets import LyricsWidget, SelectedListLyricsWidget, CurrentLyricWidget
 from widgets.tab import Tab
+
+
+def _on_change_verse(verse: LyricLine):
+    content = verse.content
+    WebSocketServer.send(content)
 
 
 class MainWindow(QMainWindow):
@@ -24,32 +30,38 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Worship Lyrics')
         self.setMinimumSize(QSize(1024, 600))
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.menuOrganizer()
+        self.menu_organizer()
 
-        lyrics_list = ApplicationContext.lyric_handler.get_lyrics_list()
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._loaded_lyrics_tab())
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._pre_selected_lyrics_tab())
+        self.setDockOptions(QMainWindow.DockOption.AnimatedDocks | QMainWindow.DockOption.GroupedDragging)
+        self.setCentralWidget(PresentationScreen())
+        self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self._selected_lyric_tab())
 
+        ApplicationContext.lyrics_service.project_verse.subscribe(_on_change_verse)
+
+    def _loaded_lyrics_tab(self) -> Tab:
         lyrics_tab = Tab(self, Qt.WindowType.WindowMinimizeButtonHint)
         lyrics_tab.setTitle('Letras', qta.icon('mdi.text-box-multiple', color='#42E8FF'))
-        lyrics_tab.setBody(LyricsWidget(lyrics_list), False)
+        lyrics_tab.setBody(LyricsWidget(), False)
 
-        selected_lyrics_tab = Tab(self, Qt.WindowType.WindowMinimizeButtonHint)
-        selected_lyrics_tab.setTitle('Letras selecionadas', qta.icon('mdi.star', color='#FFE042'))
-        selected_lyrics_tab.setBody(SelectedListLyricsWidget(), False)
+        return lyrics_tab
 
-        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, lyrics_tab)
-        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, selected_lyrics_tab)
-        self.setDockOptions(QMainWindow.DockOption.AnimatedDocks | QMainWindow.DockOption.GroupedDragging)
+    def _pre_selected_lyrics_tab(self) -> Tab:
+        pre_selected_lyrics_tab = Tab(self, Qt.WindowType.WindowMinimizeButtonHint)
+        pre_selected_lyrics_tab.setTitle('Letras selecionadas', qta.icon('mdi.star', color='#FFE042'))
+        pre_selected_lyrics_tab.setBody(SelectedListLyricsWidget(), False)
 
-        self.setCentralWidget(PresentationScreen())
+        return pre_selected_lyrics_tab
 
+    def _selected_lyric_tab(self) -> Tab:
         lyric_bar_tab = Tab(self)
         lyric_bar_tab.setTitle('Letra selecionada', qta.icon('mdi.television-play', color='#30E842'))
         lyric_bar_tab.setBody(CurrentLyricWidget(), False)
-        self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, lyric_bar_tab)
 
-        ApplicationContext.lyric_handler.on_change_verse(self._onChangeVerse)
+        return lyric_bar_tab
 
-    def menuOrganizer(self):
+    def menu_organizer(self):
         menu = self.menuBar()
         file_menu = menu.addMenu("&Arquivos")
         file_menu.addAction(NewLyricAction(self))
@@ -63,8 +75,4 @@ class MainWindow(QMainWindow):
         self.lyric_menu = menu.addMenu("&Letras")
         self.lyric_menu.addAction(self.refresh_menu)
         self.lyric_menu.addAction(self.remove_lyric_menu)
-
-    def _onChangeVerse(self, verse):
-        content = verse['content']
-        WebSocketServer.send(content)
 

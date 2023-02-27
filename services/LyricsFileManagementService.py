@@ -6,7 +6,7 @@ from entity import Lyric
 _lyric_extension = '.txt'
 
 
-class LyricsManagementService:
+class LyricsFileManagementService:
     @staticmethod
     def create_new_lyric(lyric: Lyric):
         if not lyric.name or not lyric.author or not lyric.lyric:
@@ -25,8 +25,8 @@ class LyricsManagementService:
 
     @staticmethod
     def update_lyric(lyric: Lyric):
-        LyricsManagementService.remove_lyric(lyric)
-        LyricsManagementService.create_new_lyric(lyric)
+        LyricsFileManagementService.remove_lyric(lyric)
+        LyricsFileManagementService.create_new_lyric(lyric)
 
     @staticmethod
     def remove_lyric(lyric: Lyric):

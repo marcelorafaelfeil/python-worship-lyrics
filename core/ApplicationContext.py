@@ -1,10 +1,11 @@
-from core import Lyrics, WebSocketHandler, SettingsHandler, Core
+from core import WebSocketHandler, SettingsHandler, Core
 from PyQt6.QtWidgets import QWidget, QDialog
+
+from services.LyricsService import LyricsService
 
 
 class ApplicationContext:
     core: Core
-    lyric_handler: Lyrics
     websocket_handler: WebSocketHandler
     main_window: QWidget
     window_preference: QDialog
@@ -12,6 +13,7 @@ class ApplicationContext:
     lyrics_tree: any
     selected_lyrics_tree: any
     settings: SettingsHandler
+    lyrics_service: LyricsService
 
     @staticmethod
     def getWebsocket() -> WebSocketHandler:

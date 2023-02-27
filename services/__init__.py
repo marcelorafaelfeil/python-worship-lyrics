@@ -1,2 +1,1 @@
-from .LyricSearchService import LyricSearchService
 from .SettingsFileService import SettingsFileService

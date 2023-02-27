@@ -1,9 +1,12 @@
+from core import ApplicationContext
+
+
 class Core:
 
-    def __init__(self, context):
-        self.context = context
+    def __init__(self):
+        self.context = ApplicationContext
 
     def update(self):
-        self.context.lyric_handler.refresh()
+        self.context.lyrics_service.refresh()
         pass
 
