@@ -122,7 +122,7 @@ class TreeLyricsWidget(QTreeWidget):
             item = selected_item.data(0, Qt.ItemDataRole.UserRole)
 
             if item is not None:
-                LyricsFileManagementService.remove_lyric(Lyric(item['name'], item['author'], None, item['path']))
+                LyricsFileManagementService.remove_lyric(Lyric(item.name, item.author, None, item.path))
 
         ApplicationContext.lyrics_service.refresh()
 

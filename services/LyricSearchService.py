@@ -48,7 +48,7 @@ class LyricSearchService:
         for lyric in lyrics_list:
             path: str = lyric.path
 
-            f = open(path, 'r')
+            f = open(path, 'r', encoding='utf-8')
 
             content: str = unidecode.unidecode(f.read().lower())
             content = content.replace('\n', ' ').replace('  ', ' ')
