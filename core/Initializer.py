@@ -1,22 +1,22 @@
 import os
 from os import path
 
-from core import Core, ApplicationContext, WebSocketHandler, Lyrics, HttpHandler, SettingsHandler
+from core import Core, ApplicationContext, WebSocketHandler, HttpHandler, SettingsHandler
 from screens.lyrics.NewLyricScreen import NewLyricScreen
 from screens.preferences import PreferencesScreen
+from services.LyricsService import LyricsService
 
 
 class Initializer:
     @staticmethod
     def start():
-        ApplicationContext.core = Core(ApplicationContext)
+        ApplicationContext.core = Core()
         ApplicationContext.settings = SettingsHandler(ApplicationContext)
 
         Initializer.prepare_default_settings()
 
         ApplicationContext.http = HttpHandler()
-        ApplicationContext.lyric_handler = Lyrics(ApplicationContext)
-        ApplicationContext.lyric_handler.load_lyrics()
+        ApplicationContext.lyrics_service = LyricsService(ApplicationContext)
         ApplicationContext.websocket_handler = WebSocketHandler(ApplicationContext)
         ApplicationContext.window_preference = PreferencesScreen()
         ApplicationContext.window_new_lyric = NewLyricScreen()

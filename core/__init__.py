@@ -1,4 +1,3 @@
-from .Lyrics import Lyrics
 from .ApplicationContext import ApplicationContext
 from .WebSocketServer import WebSocketServer
 from .Event import Event

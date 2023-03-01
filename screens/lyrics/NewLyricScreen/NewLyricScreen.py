@@ -8,7 +8,7 @@ from entity.Lyric import Lyric
 from screens.lyrics.NewLyricScreen.widget.Footer import Footer
 from screens.lyrics.NewLyricScreen.widget.LyricButtons import LyricButtons
 from screens.lyrics.NewLyricScreen.widget.LyricForm import LyricForm
-from services.LyricsManagementService import LyricsManagementService
+from services.LyricsFileManagementService import LyricsFileManagementService
 
 
 class NewLyricScreen(QDialog):
@@ -60,16 +60,16 @@ class NewLyricScreen(QDialog):
             return
 
         if not self._selected_lyric:
-            LyricsManagementService.create_new_lyric(Lyric(name, author, lyric))
+            LyricsFileManagementService.create_new_lyric(Lyric(name, author, lyric))
         else:
             self._selected_lyric.name = name
             self._selected_lyric.author = author
             self._selected_lyric.lyric = lyric
-            LyricsManagementService.update_lyric(self._selected_lyric)
+            LyricsFileManagementService.update_lyric(self._selected_lyric)
 
         self._form.reset()
         self._selected_lyric = None
-        ApplicationContext.lyric_handler.refresh()
+        ApplicationContext.lyrics_service.refresh()
 
         self.close()
 

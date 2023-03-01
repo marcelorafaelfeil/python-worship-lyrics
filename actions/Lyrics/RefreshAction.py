@@ -6,7 +6,7 @@ from services.utils import PathUtils
 
 
 def _perform_action():
-    ApplicationContext.lyric_handler.refresh()
+    ApplicationContext.lyrics_service.refresh()
 
 
 class RefreshAction(QAction):

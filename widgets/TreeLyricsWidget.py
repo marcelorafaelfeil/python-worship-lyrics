@@ -10,7 +10,7 @@ import styles
 from actions.Lyrics import RefreshAction
 from core import ApplicationContext
 from entity.Lyric import Lyric
-from services.LyricsManagementService import LyricsManagementService
+from services.LyricsFileManagementService import LyricsFileManagementService
 from services.utils import PathUtils
 
 
@@ -20,9 +20,9 @@ class TreeLyricsWidget(QTreeWidget):
             | Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsDropEnabled
     )
 
-    def __init__(self, columns: List[str], items):
+    def __init__(self, columns: List[str]):
         super().__init__()
-        self._on_select_item = None
+        self.lyrics_service = ApplicationContext.lyrics_service
 
         self.setColumnCount(2)
         self.setIndentation(0)
@@ -32,34 +32,31 @@ class TreeLyricsWidget(QTreeWidget):
         self.setDragEnabled(True)
         self.setHeaderLabels(columns)
         self.setItemsExpandable(False)
-        self.doubleClicked.connect(self._doubleClicked)
+        self.doubleClicked.connect(self._on_double_click)
 
-        if items is not None:
-            self.setItems(items)
+        if self.lyrics_service.data is not None:
+            self.set_items(self.lyrics_service.data)
 
-    def setItems(self, data):
+        self.lyrics_service.lyrics.subscribe(lambda items: self.set_items(items))
+
+    def set_items(self, data: List[Lyric]):
         self.clear()
         items = []
 
         for lyric in data:
-            item = QTreeWidgetItem([lyric['name'], lyric['author']])
+            item = QTreeWidgetItem([lyric.name, lyric.author])
             item.setData(0, Qt.ItemDataRole.UserRole, lyric)
             items.append(item)
 
         self.insertTopLevelItems(0, items)
 
-    def onSelectItem(self, _fn):
-        self._on_select_item = _fn
-
-    def _doubleClicked(self, index: QtCore.QModelIndex) -> None:
+    def _on_double_click(self, index: QtCore.QModelIndex) -> None:
         widget_item = self.itemFromIndex(index)
-        self.sendToUseArea(widget_item)
+        self.send_to_selected_area(widget_item)
 
-    def sendToUseArea(self, widget_item: QTreeWidgetItem):
-        item = widget_item.data(0, Qt.ItemDataRole.UserRole)
-
-        if self._on_select_item is not None:
-            self._on_select_item(item)
+    def send_to_selected_area(self, widget_item: QTreeWidgetItem):
+        item: Lyric = widget_item.data(0, Qt.ItemDataRole.UserRole)
+        self.lyrics_service.prepare_lyric.on_next(item)
 
     def dropEvent(self, event: QtGui.QDropEvent) -> None:
         if self.dropIndicatorPosition() == QAbstractItemView.DropIndicatorPosition.OnItem:
@@ -72,15 +69,11 @@ class TreeLyricsWidget(QTreeWidget):
             event.acceptProposedAction()
             self.clearSelection()
 
-    def useSelectedLyrics(self):
-        for item in self.selectedItems():
-            self.sendToUseArea(item)
-
     def contextMenuEvent(self, event: QtGui.QContextMenuEvent) -> None:
 
         icon_action_use = QIcon(PathUtils.icon('present_to_all_cian.png'))
         action_use = QAction('Usar')
-        action_use.triggered.connect(self.useSelectedLyrics)
+        action_use.triggered.connect(self.use_lyric_action)
         action_use.setIcon(icon_action_use)
 
         icon_edit_action = QIcon(qtawesome.icon('mdi6.file-edit-outline'))
@@ -120,14 +113,18 @@ class TreeLyricsWidget(QTreeWidget):
 
         alert.show()
 
+    def use_lyric_action(self):
+        for item in self.selectedItems():
+            self.send_to_selected_area(item)
+
     def remove_lyrics(self):
         for selected_item in self.selectedItems():
             item = selected_item.data(0, Qt.ItemDataRole.UserRole)
 
             if item is not None:
-                LyricsManagementService.remove_lyric(Lyric(item['name'], item['author'], None, item['path']))
+                LyricsFileManagementService.remove_lyric(Lyric(item.name, item.author, None, item.path))
 
-        ApplicationContext.lyric_handler.refresh()
+        ApplicationContext.lyrics_service.refresh()
 
     def edit_lyric_action(self):
         if len(self.selectedItems()) > 1:
@@ -138,7 +135,7 @@ class TreeLyricsWidget(QTreeWidget):
 
         selected_item = self.selectedItems()[0]
         item = selected_item.data(0, Qt.ItemDataRole.UserRole)
-        lyric = LyricsManagementService.get_lyric_by_path(item['path'])
+        lyric = LyricsFileManagementService.get_lyric_by_path(item['path'])
 
         screen = ApplicationContext.window_new_lyric
         screen.update_lyric(Lyric(item['name'], item['author'], lyric, item['path']))
