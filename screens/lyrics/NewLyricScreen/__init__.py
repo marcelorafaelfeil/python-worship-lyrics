@@ -1,1 +1,0 @@
-from screens.lyrics.NewLyricScreen.NewLyricScreen import NewLyricScreen

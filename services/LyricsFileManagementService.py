@@ -1,7 +1,7 @@
 import os
 
-from core import ApplicationContext
-from entity import Lyric
+from controller.core import ApplicationContext
+from controller.entity import Lyric
 
 _lyric_extension = '.txt'
 
