@@ -1,6 +1,6 @@
 import unidecode
 
-from core import ApplicationContext
+from controller.core import ApplicationContext
 
 
 class LyricSearchService:

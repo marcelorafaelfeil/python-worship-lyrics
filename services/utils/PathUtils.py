@@ -7,6 +7,7 @@ basedir = os.path.dirname(os.path.realpath(sys.argv[0]))
 class PathUtils:
     @staticmethod
     def icon(icon_name: str) -> str:
+        print(os.path.join(basedir, 'assets', 'icons', icon_name))
         return os.path.join(basedir, 'assets', 'icons', icon_name)
 
     @staticmethod

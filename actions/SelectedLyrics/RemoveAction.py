@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction, QIcon
 
-from core import ApplicationContext
+from controller.core import ApplicationContext
 from services.utils import PathUtils
 
 

@@ -1,10 +1,8 @@
-import logging
-
 import qtawesome
 from PyQt6.QtGui import QAction, QIcon, QKeySequence
 from PyQt6.QtCore import Qt, QKeyCombination
 
-from core import ApplicationContext
+from controller.core import ApplicationContext
 
 
 def _open_screen():

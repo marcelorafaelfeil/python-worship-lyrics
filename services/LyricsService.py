@@ -3,8 +3,8 @@ from typing import List
 
 from reactivex import Subject
 
-from entity.Lyric import Lyric
-from entity.LyricLine import LyricLine
+from controller.entity.Lyric import Lyric
+from controller.entity.LyricLine import LyricLine
 from services.utils import PathUtils
 
 

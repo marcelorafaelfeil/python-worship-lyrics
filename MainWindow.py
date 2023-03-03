@@ -1,16 +1,20 @@
+import qtawesome
 import qtawesome as qta
-from PyQt6.QtCore import QSize, Qt
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QMainWindow
+from qframelesswindow import FramelessMainWindow
 
 from actions import PreferencesAction
 from actions.Lyrics import RefreshAction
 from actions.NewLyricAction import NewLyricAction
 from actions.SelectedLyrics import RemoveAction
-from core import ApplicationContext, WebSocketServer
-from entity.LyricLine import LyricLine
-from structure import PresentationScreen
-from widgets import LyricsWidget, SelectedListLyricsWidget, CurrentLyricWidget
-from widgets.tab import Tab
+from controller.core import ApplicationContext, WebSocketServer
+from controller.entity.LyricLine import LyricLine
+from view.structure import PresentationScreen
+from view.widgets import LyricsWidget, SelectedListLyricsWidget, CurrentLyricWidget
+from view.widgets.WLTitleBar import WLTitleBar
+from view.widgets.form import IconButton
+from view.widgets.tab import Tab
 
 
 def _on_change_verse(verse: LyricLine):
@@ -18,19 +22,34 @@ def _on_change_verse(verse: LyricLine):
     WebSocketServer.send(content)
 
 
-class MainWindow(QMainWindow):
+def open_preferences(value):
+    ApplicationContext.window_preference.exec()
+
+
+def _render_settings_button() -> IconButton:
+    settings_button = IconButton(qtawesome.icon("mdi6.cog-outline"), 18)
+    settings_button.clicked.connect(open_preferences)
+
+    return settings_button
+
+
+class MainWindow(FramelessMainWindow):
     def __init__(self):
         super().__init__()
+
+        ApplicationContext.main_window = self
 
         self.refresh_menu = None
         self.lyric_menu = None
         self.remove_lyric_menu = None
-
-        ApplicationContext.main_window = self
         self.setWindowTitle('Worship Lyrics')
-        self.setMinimumSize(QSize(1024, 600))
+
+        titlebar = WLTitleBar(self, end_widgets=_render_settings_button)
+
+        self.showMaximized()
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.menu_organizer()
+        self.setTitleBar(titlebar)
+        self.setContentsMargins(0, 32, 0, 0)
 
         self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._loaded_lyrics_tab())
         self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._pre_selected_lyrics_tab())
